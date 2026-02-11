@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #000000;
+  color: #f8fafc;
+}
+
+a {
+  color: #67e8f9;
+}
+
+a:hover {
+  color: #a5f3fc;
+}
+
+@keyframes panelFadeIn {
+  from {
+    opacity: 0.35;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.panel-fade {
+  animation: panelFadeIn 220ms ease-out;
+}

@@ -1,0 +1,818 @@
+{
+  "federalContext": {
+    "law": "GENIUS Act (Guiding and Establishing National Innovation for U.S. Stablecoins Act)",
+    "signedDate": "2025-07-18",
+    "summary": "The GENIUS Act was signed into law on July 18, 2025. It establishes the first broad federal framework for payment stablecoins, including reserve backing, redemption, supervision, and issuer requirements, while still allowing certain state pathways when standards are substantially similar.",
+    "sources": [
+      "https://www.congress.gov/bill/119th-congress/senate-bill/1582/text",
+      "https://www.congress.gov/bill/119th-congress/senate-bill/1582/all-info",
+      "https://www.whitehouse.gov/briefings-statements/2025/07/the-president-signed-into-law-s-1582/"
+    ],
+    "lastUpdated": "2026-02-11"
+  },
+  "pendingFederalBills": [
+    {
+      "id": "HR3633",
+      "title": "Digital Asset Market Clarity Act of 2025 (CLARITY Act)",
+      "category": "Market Structure",
+      "what": "Would create a broader federal market-structure framework for digital asset spot markets and regulatory jurisdiction.",
+      "status": "Passed House; pending in Senate",
+      "latest": "Latest action (September 18, 2025): received in the Senate, read twice, and referred to the Senate Banking Committee.",
+      "sources": [
+        "https://www.congress.gov/bill/119th-congress/house-bill/3633",
+        "https://www.congress.gov/bill/119th-congress/house-bill/3633/actions"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    {
+      "id": "HR1919",
+      "title": "Anti-CBDC Surveillance State Act",
+      "category": "CBDC Policy",
+      "what": "Would limit the Federal Reserve from issuing a U.S. CBDC directly to individuals and from using a CBDC for monetary policy implementation.",
+      "status": "Passed House; pending in Senate",
+      "latest": "Latest action (July 17, 2025): passed House 219-210; Senate has not enacted a corresponding final measure.",
+      "sources": [
+        "https://www.congress.gov/bill/119th-congress/house-bill/1919",
+        "https://www.congress.gov/bill/119th-congress/house-bill/1919/actions"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    {
+      "id": "S2207",
+      "title": "Digital Asset Tax Reform Bill (Senate)",
+      "category": "Taxation",
+      "what": "Would establish digital-asset-related federal tax treatment updates, including de minimis treatment discussions and related reporting/tax mechanics.",
+      "status": "Introduced; pending in Senate Finance",
+      "latest": "Latest action (June 30, 2025): introduced in the Senate and referred to the Senate Finance Committee.",
+      "sources": [
+        "https://www.congress.gov/bill/119th-congress/senate-bill/2207",
+        "https://www.congress.gov/bill/119th-congress/senate-bill/2207/text"
+      ],
+      "lastUpdated": "2026-02-11"
+    }
+  ],
+  "majorStateDevelopments": [
+    {
+      "state": "CA",
+      "title": "DFAL licensing rollout",
+      "what": "California's DFAL licensing and compliance framework for covered digital asset business activity.",
+      "status": "Implementation watch (not a pending bill): DFPI rulemaking/implementation remains active ahead of the July 1, 2026 licensure date.",
+      "latest": "Most recent posture: DFAL remains in implementation mode under DFPI with operative date tied to 2026 licensure.",
+      "sources": [
+        "https://dfpi.ca.gov/regulated-industries/digital-financial-assets/",
+        "https://dfpi.ca.gov/rules-enforcement/laws-and-regulations/digital-financial-assets-law-regulations-opinions-releases/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    {
+      "state": "FL",
+      "title": "HB 1039 - State cryptocurrency reserve",
+      "what": "Would establish and govern a Florida Strategic Cryptocurrency Reserve.",
+      "status": "Pending bill: filed in House, referred to committees, and received first reading on January 13, 2026.",
+      "latest": "Latest action: House first reading (January 13, 2026) after committee referrals.",
+      "sources": [
+        "https://www.flsenate.gov/Session/Bill/2026/1039"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    {
+      "state": "AZ",
+      "title": "SB 1044 - Virtual currency property tax exemption",
+      "what": "Would exempt virtual currency from property taxation, conditional on voter approval of a constitutional amendment.",
+      "status": "Pending bill: prefiled for Arizona's 2026 second regular session and introduced in the Senate.",
+      "latest": "Current posture: introduced text published for 2026 session with conditional enactment language.",
+      "sources": [
+        "https://www.azleg.gov/legtext/57leg/2R/bills/SB1044P.htm"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    {
+      "state": "AZ",
+      "title": "HB 2232 - Cryptocurrency kiosk licensure",
+      "what": "Would require DIFI licensure and compliance controls for cryptocurrency kiosk operators.",
+      "status": "Pending bill: introduced in Arizona House (2026 second regular session).",
+      "latest": "Current posture: introduced bill text sets January 1, 2027 licensure requirement for kiosk operators.",
+      "sources": [
+        "https://www.azleg.gov/legtext/57leg/2r/bills/hb2232p.htm"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    {
+      "state": "NY",
+      "title": "S4728A - NY crypto/blockchain study task force",
+      "what": "Would have created a state cryptocurrency and blockchain study task force.",
+      "status": "Not pending: vetoed in the 2025-2026 session.",
+      "latest": "Current posture: bill page marks S4728A as vetoed by the governor.",
+      "sources": [
+        "https://www.nysenate.gov/legislation/bills/2025/S4728/amendment/A"
+      ],
+      "lastUpdated": "2026-02-11"
+    }
+  ],
+  "states": {
+    "NY": {
+      "name": "New York",
+      "status": "restrictive",
+      "summary": "New York has one of the strictest crypto regulatory regimes. Most digital asset business activity touching New York or New York residents requires a BitLicense or trust charter, and NYDFS has specific USD-backed stablecoin issuance guidance.",
+      "keyLaws": [
+        "23 NYCRR Part 200 (BitLicense)",
+        "NYDFS Industry Letter on USD-Backed Stablecoins (June 8, 2022)"
+      ],
+      "recentDevelopments": "NYDFS continues issuing digital-asset-focused supervisory and industry letters, with stablecoin reserve and redemption expectations remaining central.",
+      "sources": [
+        "https://www.dfs.ny.gov/virtual_currency_businesses",
+        "https://www.dfs.ny.gov/industry_guidance/industry_letters/il20220608_issuance_stablecoins",
+        "https://www.dfs.ny.gov/apps_and_licensing/application_fee_schedule"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "CA": {
+      "name": "California",
+      "status": "restrictive",
+      "summary": "California's Digital Financial Assets Law (DFAL) establishes a broad licensing and compliance framework for digital asset business activity. Covered entities must be licensed by, or have applied with, DFPI by July 1, 2026.",
+      "keyLaws": [
+        "AB 39 and SB 401 (2023) - DFAL",
+        "AB 1934 (2024) - licensure timeline extension to July 1, 2026"
+      ],
+      "recentDevelopments": "DFPI continued DFAL rulemaking in 2025 and has already brought enforcement actions against kiosk operators under DFAL provisions.",
+      "sources": [
+        "https://dfpi.ca.gov/regulated-industries/digital-financial-assets/",
+        "https://dfpi.ca.gov/rules-enforcement/laws-and-regulations/digital-financial-assets-law-regulations-opinions-releases/",
+        "https://dfpi.ca.gov/press_release/dfpi-fines-coinme-300000-related-to-crypto-kiosk-violations-secures-51700-in-restitution-for-victims/",
+        "https://dfpi.ca.gov/press_release/dfpi-cracks-down-on-cash-to-crypto-kiosk-operators/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "WY": {
+      "name": "Wyoming",
+      "status": "friendly",
+      "summary": "Wyoming remains one of the most crypto-forward jurisdictions in the US. It created a state stable token legal framework and continues operating specialized digital-asset-focused banking structures such as SPDIs.",
+      "keyLaws": [
+        "Wyoming Stable Token Act (SF0127; Enrolled Act 85, 2023)",
+        "SPDI framework (W.S. 13-12-101 et seq.)",
+        "HB0264 (2025) - state-level CBDC restrictions"
+      ],
+      "recentDevelopments": "Wyoming stable token administration and related commission policy materials have continued to be published; the SPDI framework remains active.",
+      "sources": [
+        "https://www.wyoleg.gov/2023/Enroll/SF0127.pdf",
+        "https://www.wyoleg.gov/2025/Summaries/HB0264.pdf",
+        "https://wyomingbankingdivision.wyo.gov/banks-and-trust-companies/special-purpose-depository-institutions",
+        "https://stabletoken.wyo.gov/assets/media/Listing%20Exchange%20Policy.pdf"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "TX": {
+      "name": "Texas",
+      "status": "friendly",
+      "summary": "Texas has an active digital asset policy posture and enacted SB 21 in 2025, creating the Texas Strategic Bitcoin Reserve framework. Texas also has statutory operational requirements for qualifying digital asset service providers.",
+      "keyLaws": [
+        "SB 21 (89R, 2025) - Texas Strategic Bitcoin Reserve and Investment Act",
+        "Texas Finance Code Chapter 160 - Digital Asset Service Providers"
+      ],
+      "recentDevelopments": "SB 21 was signed by the Governor on June 20, 2025 and took effect immediately according to bill history.",
+      "sources": [
+        "https://capitol.texas.gov/billlookup/History.aspx?Bill=SB21&LegSess=89R",
+        "https://capitol.texas.gov/tlodocs/89R/billtext/html/SB00021F.htm",
+        "https://statutes.capitol.texas.gov/Docs/FI/pdf/FI.160.pdf"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "FL": {
+      "name": "Florida",
+      "status": "friendly",
+      "summary": "Florida uses a money-services framework that explicitly references digital assets in key definitions and transmitter obligations. It also enacted 2023 legislation excluding CBDCs from the UCC definition of money.",
+      "keyLaws": [
+        "Chapter 560, Florida Statutes (Money Services Businesses)",
+        "SB 7054 (2023) - CBDC treatment under Florida UCC"
+      ],
+      "recentDevelopments": "HB 1039 (2026 session), which would establish a state cryptocurrency reserve framework, has been filed and referred in committee.",
+      "sources": [
+        "https://www.flsenate.gov/Laws/Statutes/2025/Chapter560/All",
+        "https://www.flsenate.gov/Committees/billsummaries/2023/html/2564",
+        "https://www.flsenate.gov/Session/Bill/2026/1039"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "WA": {
+      "name": "Washington",
+      "status": "restrictive",
+      "summary": "Washington generally regulates digital asset businesses through its Uniform Money Services Act and related DFI policy statements. Digital asset activities commonly trigger licensing and disclosure duties under state money transmission rules.",
+      "keyLaws": [
+        "Chapter 19.230 RCW - Uniform Money Services Act",
+        "DFI policy statement regarding digital asset kiosks (2024)"
+      ],
+      "recentDevelopments": "DFI has continued active enforcement and supervision actions involving digital-asset-related operations.",
+      "sources": [
+        "https://app.leg.wa.gov/RCW/default.aspx?cite=19.230",
+        "https://dfi.wa.gov/consumers/virtual-currency/primer",
+        "https://dfi.wa.gov/news/press/wa-dfi-issues-policy-statement-and-consumer-alert-increase-consumer-awareness-scams",
+        "https://dfi.wa.gov/news/press/washington-state-dfi-takes-action-against-coinme-halt-all-money-transfers-washington-due"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "LA": {
+      "name": "Louisiana",
+      "status": "restrictive",
+      "summary": "Louisiana has a dedicated digital asset business activity framework administered by the Office of Financial Institutions. Entities conducting covered digital asset business activity in Louisiana generally need to follow the state's licensing regime.",
+      "keyLaws": [
+        "Virtual Currency Businesses Act (Act 341 of 2020)",
+        "LAC 10:I.1901 et seq. (implementing regulations)"
+      ],
+      "recentDevelopments": "Louisiana OFI has continued posting annual legislative and licensing updates specific to digital asset business activity.",
+      "sources": [
+        "https://ofi.la.gov/non-depository/virtual-currency-business-activity/",
+        "https://ofi.la.gov/ofi-docs/NonDepVirtualCurrencyRegulationGuidance.pdf",
+        "https://ofi.la.gov/2025-legislative-summary-and-other-information/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "AZ": {
+      "name": "Arizona",
+      "status": "friendly",
+      "summary": "Arizona has moved on multiple digital-asset bills and enacted HB2749 in 2025 to establish a Bitcoin and digital assets reserve fund structure tied to unclaimed-property-related flows. Other reserve-focused proposals have faced vetoes, so the framework remains mixed.",
+      "keyLaws": [
+        "HB2749 (2025) - Bitcoin and Digital Assets Reserve Fund",
+        "HB2387 (2025) - cryptocurrency kiosk requirements"
+      ],
+      "recentDevelopments": "SB1373 and SB1025 were vetoed in 2025 while HB2749 advanced, reflecting an active but still evolving policy direction.",
+      "sources": [
+        "https://www.azleg.gov/legtext/57leg/1r/bills/hb2749h.htm",
+        "https://www.azleg.gov/legtext/57leg/1r/bills/hb2387s.htm",
+        "https://www.azleg.gov/legtext/57leg/1R/summary/S.1373FIN_ASVETOED.DOCX.htm",
+        "https://www.azleg.gov/legtext/57leg/1R/summary/S.1025FIN_ASVETOED.DOCX.htm"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "NH": {
+      "name": "New Hampshire",
+      "status": "friendly",
+      "summary": "New Hampshire is generally viewed as policy-forward on digital assets, but stablecoin-specific state licensing remains limited and model-dependent.",
+      "keyLaws": [
+        "State-level digital asset policy proposals and enactments (including treasury and investment activity)"
+      ],
+      "recentDevelopments": "Legislative and treasury-related digital asset developments continue, but stablecoin-specific supervisory structure remains limited.",
+      "sources": [
+        "https://www.gencourt.state.nh.us/",
+        "https://www.banking.nh.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "NE": {
+      "name": "Nebraska",
+      "status": "friendly",
+      "summary": "Nebraska created a charter path for digital asset depositories under the Nebraska Financial Innovation Act, giving it one of the clearer state-level structures for digital-asset banking operations.",
+      "keyLaws": [
+        "LB649 (2021) - Nebraska Financial Innovation Act"
+      ],
+      "recentDevelopments": "Nebraska officials announced a first-in-nation digital asset bank charter in 2025 under the state framework.",
+      "sources": [
+        "https://ndbf.nebraska.gov/industries/digital-assets",
+        "https://nebraskalegislature.gov/FloorDocs/107/PDF/Final/LB649.pdf",
+        "https://governor.nebraska.gov/gov-pillen-signs-first-nation-digital-asset-bank-charter"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "NJ": {
+      "name": "New Jersey",
+      "status": "unclear",
+      "summary": "New Jersey generally operates through existing money transmitter and broader financial-services laws without a complete stablecoin-specific framework. Companies still require model-specific licensing analysis.",
+      "keyLaws": [
+        "Money Transmitter Act (state-level baseline)",
+        "Pending digital asset bill activity"
+      ],
+      "recentDevelopments": "Regulatory clarity remains tied to pending state proposals and the rollout of federal GENIUS Act implementation.",
+      "sources": [
+        "https://www.nj.gov/dobi/",
+        "https://www.njleg.state.nj.us/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "IL": {
+      "name": "Illinois",
+      "status": "unclear",
+      "summary": "Illinois primarily applies existing money transmission and financial-services rules to digital asset businesses. There is no comprehensive stablecoin-specific licensing framework currently in force.",
+      "keyLaws": [
+        "Transmitters of Money Act (baseline)",
+        "Digital-asset-related legislative proposals"
+      ],
+      "recentDevelopments": "State-level developments continue, but market participants still rely heavily on federal and existing-state-law interpretation.",
+      "sources": [
+        "https://www.ilga.gov/",
+        "https://idfpr.illinois.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "PA": {
+      "name": "Pennsylvania",
+      "status": "none",
+      "summary": "Pennsylvania does not currently have a full stablecoin-specific statutory framework. Most treatment remains under general money transmission and related financial regulation.",
+      "keyLaws": [
+        "Money transmission licensing rules"
+      ],
+      "recentDevelopments": "No major standalone stablecoin law has been enacted.",
+      "sources": [
+        "https://www.dobs.pa.gov/",
+        "https://www.legis.state.pa.us/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "MA": {
+      "name": "Massachusetts",
+      "status": "unclear",
+      "summary": "Massachusetts does not have a dedicated stablecoin licensing regime and generally regulates through existing banking, money transmission, and securities authorities.",
+      "keyLaws": [
+        "Money transmission and banking supervision framework"
+      ],
+      "recentDevelopments": "Policy development remains incremental; no fully separate stablecoin statute is in force.",
+      "sources": [
+        "https://www.mass.gov/orgs/division-of-banks"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "HI": {
+      "name": "Hawaii",
+      "status": "unclear",
+      "summary": "Hawaii has transitioned from more restrictive approaches toward pilot and guidance-based pathways, but stablecoin-specific permanent rules remain limited.",
+      "keyLaws": [
+        "Digital Currency Innovation Lab and follow-on guidance"
+      ],
+      "recentDevelopments": "The state continues evaluating permanent framework options after pilot-era initiatives.",
+      "sources": [
+        "https://cca.hawaii.gov/dfi/",
+        "https://www.capitol.hawaii.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "NV": {
+      "name": "Nevada",
+      "status": "friendly",
+      "summary": "Nevada has maintained a generally innovation-friendly blockchain posture and does not currently impose a dedicated stablecoin statute.",
+      "keyLaws": [
+        "State blockchain-related legislation and general financial-services regulation"
+      ],
+      "recentDevelopments": "No major stablecoin-specific state licensing framework has been added.",
+      "sources": [
+        "https://www.leg.state.nv.us/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "UT": {
+      "name": "Utah",
+      "status": "friendly",
+      "summary": "Utah is generally regarded as innovation-forward with regulatory sandbox history and blockchain policy activity, though it does not yet have a dedicated stablecoin statute.",
+      "keyLaws": [
+        "Utah regulatory sandbox and digital innovation initiatives"
+      ],
+      "recentDevelopments": "Utah continues digital asset and fintech policy activity through legislative and regulator channels.",
+      "sources": [
+        "https://le.utah.gov/",
+        "https://dfi.utah.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "CO": {
+      "name": "Colorado",
+      "status": "friendly",
+      "summary": "Colorado has signaled digital asset openness through policy experimentation and public-sector adoption initiatives, without a dedicated stablecoin licensing regime.",
+      "keyLaws": [
+        "Colorado Digital Token Act",
+        "State-level digital payment and blockchain initiatives"
+      ],
+      "recentDevelopments": "Colorado remains active in digital-asset-adjacent policy and implementation discussions.",
+      "sources": [
+        "https://leg.colorado.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "GA": {
+      "name": "Georgia",
+      "status": "none",
+      "summary": "Georgia does not currently have a dedicated stablecoin framework and primarily applies general money transmission requirements.",
+      "keyLaws": [
+        "Georgia money transmission framework"
+      ],
+      "recentDevelopments": "No major standalone stablecoin law is currently in force.",
+      "sources": [
+        "https://dbf.georgia.gov/",
+        "https://www.legis.ga.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "OH": {
+      "name": "Ohio",
+      "status": "unclear",
+      "summary": "Ohio does not yet have a comprehensive stablecoin-specific framework, and activity is generally governed by existing financial-services and money transmission rules.",
+      "keyLaws": [
+        "Money transmission and related state financial statutes"
+      ],
+      "recentDevelopments": "Policy interest continues, but stablecoin-specific statewide treatment remains unsettled.",
+      "sources": [
+        "https://www.legislature.ohio.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "VT": {
+      "name": "Vermont",
+      "status": "unclear",
+      "summary": "Vermont has adopted modified money-transmission-style treatment that includes digital asset obligations, but not a standalone stablecoin code.",
+      "keyLaws": [
+        "Modified money transmission framework with digital-asset provisions"
+      ],
+      "recentDevelopments": "The state has continued refining its implementation posture under broader financial statutes.",
+      "sources": [
+        "https://dfr.vermont.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "DE": {
+      "name": "Delaware",
+      "status": "unclear",
+      "summary": "Delaware is blockchain-aware through corporate law modernization but has not adopted a complete stablecoin-specific financial licensing regime.",
+      "keyLaws": [
+        "Delaware General Corporation Law blockchain amendments"
+      ],
+      "recentDevelopments": "Business-law-level support continues without a bespoke stablecoin statute.",
+      "sources": [
+        "https://banking.delaware.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "DC": {
+      "name": "District of Columbia",
+      "status": "unclear",
+      "summary": "DC uses a money transmission framework and closely tracks federal digital asset developments. There is no independent, comprehensive stablecoin code specific to DC.",
+      "keyLaws": [
+        "Money Transmitter Act baseline"
+      ],
+      "recentDevelopments": "Federal implementation developments are likely to drive practical compliance expectations in DC.",
+      "sources": [
+        "https://disb.dc.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "AK": {
+      "name": "Alaska",
+      "status": "none",
+      "summary": "Alaska does not currently have a dedicated stablecoin law and primarily relies on general money-services and financial regulation.",
+      "keyLaws": [
+        "Money services business licensing baseline"
+      ],
+      "recentDevelopments": "No major stablecoin-specific statutory framework is currently in force.",
+      "sources": [
+        "https://www.commerce.alaska.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "MI": {
+      "name": "Michigan",
+      "status": "none",
+      "summary": "Michigan currently relies on existing money transmission and financial services frameworks for most digital asset activity.",
+      "keyLaws": [
+        "Money transmission licensing rules"
+      ],
+      "recentDevelopments": "No comprehensive stablecoin-specific statewide regime has been enacted.",
+      "sources": [
+        "https://www.michigan.gov/difs"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "NC": {
+      "name": "North Carolina",
+      "status": "none",
+      "summary": "North Carolina does not currently have a dedicated stablecoin framework; general money transmission and consumer finance rules apply.",
+      "keyLaws": [
+        "Money Transmitters Act baseline"
+      ],
+      "recentDevelopments": "No standalone stablecoin statute is currently in force.",
+      "sources": [
+        "https://www.nccob.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "VA": {
+      "name": "Virginia",
+      "status": "none",
+      "summary": "Virginia generally governs digital asset businesses under existing financial services and money transmission rules.",
+      "keyLaws": [
+        "Money transmitter licensing baseline"
+      ],
+      "recentDevelopments": "State-level stablecoin-specific legislation remains limited.",
+      "sources": [
+        "https://www.scc.virginia.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "MD": {
+      "name": "Maryland",
+      "status": "none",
+      "summary": "Maryland does not currently operate a dedicated stablecoin framework and relies on existing money transmission requirements.",
+      "keyLaws": [
+        "Money Transmission Act baseline"
+      ],
+      "recentDevelopments": "No standalone stablecoin law is currently in force.",
+      "sources": [
+        "https://www.dllr.state.md.us/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "OK": {
+      "name": "Oklahoma",
+      "status": "none",
+      "summary": "Oklahoma currently applies general financial-services rules and money transmission obligations where applicable.",
+      "keyLaws": [
+        "Money transmission framework"
+      ],
+      "recentDevelopments": "No dedicated stablecoin framework has been enacted.",
+      "sources": [
+        "https://www.ok.gov/banking/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "KY": {
+      "name": "Kentucky",
+      "status": "friendly",
+      "summary": "Kentucky has pursued selected crypto-industry-friendly measures while still relying on baseline financial-services rules for broader activity.",
+      "keyLaws": [
+        "State-level digital asset and mining-related policy initiatives"
+      ],
+      "recentDevelopments": "Kentucky continues to be viewed as comparatively crypto-supportive in policy tone.",
+      "sources": [
+        "https://legislature.ky.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "TN": {
+      "name": "Tennessee",
+      "status": "none",
+      "summary": "Tennessee has no dedicated stablecoin licensing statute and generally relies on existing money transmission rules.",
+      "keyLaws": [
+        "Money transmitter licensing baseline"
+      ],
+      "recentDevelopments": "No major standalone stablecoin framework has been enacted.",
+      "sources": [
+        "https://www.tn.gov/tdfi"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "SC": {
+      "name": "South Carolina",
+      "status": "none",
+      "summary": "South Carolina does not currently have a dedicated stablecoin statute and generally relies on standard financial services regulation.",
+      "keyLaws": [
+        "General financial services and transmission oversight"
+      ],
+      "recentDevelopments": "No major state-level stablecoin framework currently in force.",
+      "sources": [
+        "https://consumer.sc.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "OR": {
+      "name": "Oregon",
+      "status": "none",
+      "summary": "Oregon currently relies on general money transmission and financial-services regulation for most digital asset activity.",
+      "keyLaws": [
+        "Money transmission licensing baseline"
+      ],
+      "recentDevelopments": "No dedicated stablecoin law has been enacted.",
+      "sources": [
+        "https://dfr.oregon.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "MN": {
+      "name": "Minnesota",
+      "status": "none",
+      "summary": "Minnesota does not currently have a bespoke stablecoin statute and generally uses existing money transmission regulation.",
+      "keyLaws": [
+        "Money transmitter licensing framework"
+      ],
+      "recentDevelopments": "No major stablecoin-specific statewide framework has been enacted.",
+      "sources": [
+        "https://mn.gov/commerce/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "WI": {
+      "name": "Wisconsin",
+      "status": "none",
+      "summary": "Wisconsin currently applies standard financial regulation and money transmission concepts to digital asset businesses where relevant.",
+      "keyLaws": [
+        "Money transmission licensing baseline"
+      ],
+      "recentDevelopments": "No dedicated stablecoin licensing framework is currently in force.",
+      "sources": [
+        "https://wdfi.org/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "IA": {
+      "name": "Iowa",
+      "status": "none",
+      "summary": "Iowa does not currently have a dedicated stablecoin framework and generally governs under existing money-services rules.",
+      "keyLaws": [
+        "Money services licensing baseline"
+      ],
+      "recentDevelopments": "No major standalone stablecoin law has been enacted.",
+      "sources": [
+        "https://idob.iowa.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "IN": {
+      "name": "Indiana",
+      "status": "none",
+      "summary": "Indiana currently relies on existing money transmission and financial regulation for digital asset activity.",
+      "keyLaws": [
+        "Money transmission requirements"
+      ],
+      "recentDevelopments": "No dedicated statewide stablecoin framework has been enacted.",
+      "sources": [
+        "https://www.in.gov/dfi/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "MO": {
+      "name": "Missouri",
+      "status": "none",
+      "summary": "Missouri does not currently have a comprehensive stablecoin statute and generally applies existing financial-services rules.",
+      "keyLaws": [
+        "State money transmission framework"
+      ],
+      "recentDevelopments": "No major stablecoin-specific statewide regime is currently in force.",
+      "sources": [
+        "https://finance.mo.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "AR": {
+      "name": "Arkansas",
+      "status": "friendly",
+      "summary": "Arkansas has taken selected industry-supportive positions in digital asset policy, especially around mining-related operations. Stablecoin-specific licensing remains limited.",
+      "keyLaws": [
+        "Arkansas digital asset and mining policy measures"
+      ],
+      "recentDevelopments": "State policy remains relatively open in tone while broader federal implementation progresses.",
+      "sources": [
+        "https://arkleg.state.ar.us/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "KS": {
+      "name": "Kansas",
+      "status": "none",
+      "summary": "Kansas has no dedicated stablecoin statutory regime and generally relies on existing money transmission rules.",
+      "keyLaws": [
+        "Money transmitter licensing baseline"
+      ],
+      "recentDevelopments": "No major statewide stablecoin framework currently in force.",
+      "sources": [
+        "https://osbckansas.org/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "MS": {
+      "name": "Mississippi",
+      "status": "none",
+      "summary": "Mississippi currently governs digital asset activity primarily under existing financial-services and money transmission concepts.",
+      "keyLaws": [
+        "Money transmission baseline framework"
+      ],
+      "recentDevelopments": "No dedicated stablecoin licensing law has been enacted.",
+      "sources": [
+        "https://dbcf.ms.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "AL": {
+      "name": "Alabama",
+      "status": "none",
+      "summary": "Alabama currently relies on existing money-services and financial licensing frameworks for digital asset activity.",
+      "keyLaws": [
+        "Sale of checks / money services baseline rules"
+      ],
+      "recentDevelopments": "No major stablecoin-specific statewide framework has been enacted.",
+      "sources": [
+        "https://banking.alabama.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "NM": {
+      "name": "New Mexico",
+      "status": "none",
+      "summary": "New Mexico does not currently have a dedicated stablecoin statute and generally uses money transmission and broader financial regulatory frameworks.",
+      "keyLaws": [
+        "Money transmission baseline rules"
+      ],
+      "recentDevelopments": "No standalone stablecoin framework currently in force.",
+      "sources": [
+        "https://www.rld.nm.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "CT": {
+      "name": "Connecticut",
+      "status": "unclear",
+      "summary": "Connecticut has adopted money-transmission-style treatment with digital asset relevance, but has not enacted a fully independent stablecoin statute.",
+      "keyLaws": [
+        "Money transmission framework with digital asset coverage"
+      ],
+      "recentDevelopments": "Implementation remains tied to broader state financial-services regulation and federal changes.",
+      "sources": [
+        "https://portal.ct.gov/dob"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "WV": {
+      "name": "West Virginia",
+      "status": "none",
+      "summary": "West Virginia currently has no dedicated stablecoin statute and generally relies on existing financial regulation.",
+      "keyLaws": [
+        "General financial services regulation"
+      ],
+      "recentDevelopments": "No major stablecoin-specific statewide framework is currently in force.",
+      "sources": [
+        "https://dfi.wv.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "ND": {
+      "name": "North Dakota",
+      "status": "none",
+      "summary": "North Dakota generally relies on existing money transmission and financial-services rules for digital asset businesses.",
+      "keyLaws": [
+        "Money transmission framework"
+      ],
+      "recentDevelopments": "No dedicated stablecoin statute has been enacted.",
+      "sources": [
+        "https://www.nd.gov/dfi/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "SD": {
+      "name": "South Dakota",
+      "status": "none",
+      "summary": "South Dakota does not currently have a dedicated stablecoin statute; businesses generally rely on standard financial and money services frameworks.",
+      "keyLaws": [
+        "Money transmission and trust-company frameworks"
+      ],
+      "recentDevelopments": "No major statewide stablecoin licensing framework currently in force.",
+      "sources": [
+        "https://dlr.sd.gov/banking/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "ID": {
+      "name": "Idaho",
+      "status": "none",
+      "summary": "Idaho currently relies on existing money transmission and financial-services regulation for digital asset activity.",
+      "keyLaws": [
+        "Money transmitter licensing baseline"
+      ],
+      "recentDevelopments": "No dedicated stablecoin framework has been enacted.",
+      "sources": [
+        "https://finance.idaho.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "ME": {
+      "name": "Maine",
+      "status": "none",
+      "summary": "Maine does not currently have a dedicated stablecoin statutory framework and generally relies on broader financial-services regulation.",
+      "keyLaws": [
+        "General financial-services licensing and oversight"
+      ],
+      "recentDevelopments": "No major standalone stablecoin framework currently in force.",
+      "sources": [
+        "https://www.maine.gov/pfr/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "RI": {
+      "name": "Rhode Island",
+      "status": "none",
+      "summary": "Rhode Island currently uses standard money transmission and financial regulation for most digital asset activity.",
+      "keyLaws": [
+        "Money transmitter licensing baseline"
+      ],
+      "recentDevelopments": "No standalone stablecoin statute has been enacted.",
+      "sources": [
+        "https://dbr.ri.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    },
+    "MT": {
+      "name": "Montana",
+      "status": "friendly",
+      "summary": "Montana is often viewed as lighter-touch for certain digital asset business models compared with many peer states, though firms should still perform model-specific licensing analysis.",
+      "keyLaws": [
+        "Digital asset and business-law treatment under Montana statutes"
+      ],
+      "recentDevelopments": "No dedicated stablecoin licensing framework has been added.",
+      "sources": [
+        "https://leg.mt.gov/"
+      ],
+      "lastUpdated": "2026-02-11"
+    }
+  }
+}
