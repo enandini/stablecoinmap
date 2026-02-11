@@ -531,11 +531,11 @@
     "KY": {
       "name": "Kentucky",
       "status": "friendly",
-      "summary": "Kentucky has pursued selected crypto-industry-friendly measures while still relying on baseline financial-services rules for broader activity.",
+      "summary": "Kentucky does not currently have a dedicated stablecoin licensing statute and generally relies on baseline money transmission and financial-services rules for stablecoin-related activity.",
       "keyLaws": [
-        "State-level digital asset and mining-related policy initiatives"
+        "Kentucky money transmission and financial-services baseline requirements"
       ],
-      "recentDevelopments": "Kentucky continues to be viewed as comparatively crypto-supportive in policy tone.",
+      "recentDevelopments": "No major Kentucky-specific stablecoin framework has been enacted; federal stablecoin rules and existing state licensing baselines remain primary.",
       "sources": [
         "https://legislature.ky.gov/"
       ],
@@ -648,11 +648,11 @@
     "AR": {
       "name": "Arkansas",
       "status": "friendly",
-      "summary": "Arkansas has taken selected industry-supportive positions in digital asset policy, especially around mining-related operations. Stablecoin-specific licensing remains limited.",
+      "summary": "Arkansas does not currently have a dedicated stablecoin licensing regime and generally governs stablecoin-related activity through broader financial-services and money-transmission rules.",
       "keyLaws": [
-        "Arkansas digital asset and mining policy measures"
+        "Arkansas financial-services and money transmission baseline requirements"
       ],
-      "recentDevelopments": "State policy remains relatively open in tone while broader federal implementation progresses.",
+      "recentDevelopments": "No major Arkansas-specific stablecoin framework has been enacted; federal stablecoin standards and existing state law remain the main compliance baseline.",
       "sources": [
         "https://arkleg.state.ar.us/"
       ],
