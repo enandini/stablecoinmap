@@ -52,7 +52,8 @@ const STATUS_ORDER = ["clear_friendly", "clear_restrictive", "pending", "federal
 const STATUS_OVERRIDES_BY_STATE = {
   FL: "pending",
   HI: "pending",
-  AZ: "pending"
+  AZ: "pending",
+  ND: "pending"
 };
 
 function formatDate(isoDate) {
@@ -107,9 +108,45 @@ function getSourceLabel(source) {
   }
 }
 
+function trackerStatusStyle(status) {
+  const normalized = String(status || "").toLowerCase();
+  if (normalized.includes("launch")) {
+    return {
+      bg: "#14532d",
+      border: "#22c55e",
+      text: "#bbf7d0"
+    };
+  }
+  if (normalized.includes("pilot")) {
+    return {
+      bg: "#78350f",
+      border: "#f59e0b",
+      text: "#fde68a"
+    };
+  }
+  if (
+    normalized.includes("pending")
+    || normalized.includes("introduc")
+    || normalized.includes("proposal")
+    || normalized.includes("committee")
+  ) {
+    return {
+      bg: "#7f1d1d",
+      border: "#ef4444",
+      text: "#fecaca"
+    };
+  }
+  return {
+    bg: "#1f2937",
+    border: "#9ca3af",
+    text: "#e5e7eb"
+  };
+}
+
 function App() {
   const statesData = regulationData.states || regulationData;
   const federalContext = regulationData.federalContext || null;
+  const stateIssuedStablecoins = regulationData.stateIssuedStablecoins || [];
   const pendingFederalBills = regulationData.pendingFederalBills || [];
   const majorStateDevelopments = regulationData.majorStateDevelopments || [];
 
@@ -146,6 +183,15 @@ function App() {
   }, [latestDataDate, selectedAbbr, statesData]);
 
   const selectedStatus = normalizeStatus(selectedState.status, selectedAbbr);
+  const selectedStateIssuedPrograms = useMemo(() => {
+    const selectedName = (selectedState?.name || "").trim().toLowerCase();
+    return stateIssuedStablecoins.filter((item) => {
+      const code = String(item.state || "").trim().toUpperCase();
+      const stateName = (ALL_STATES[code] || "").trim().toLowerCase();
+      const directName = String(item.state || "").trim().toLowerCase();
+      return code === selectedAbbr || stateName === selectedName || directName === selectedName;
+    });
+  }, [selectedAbbr, selectedState?.name, stateIssuedStablecoins]);
 
   return (
     <div className="min-h-screen bg-black text-zinc-100">
@@ -268,7 +314,7 @@ function App() {
           </div>
         </section>
 
-        <aside className="h-fit rounded-2xl border border-zinc-800 bg-zinc-900/90 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.35)] lg:sticky lg:top-6">
+        <aside className="h-fit rounded-2xl border border-zinc-800 bg-zinc-900/90 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.35)] lg:sticky lg:top-6 lg:max-h-[85vh] lg:overflow-y-auto">
           <h2 className="text-lg font-semibold text-zinc-100">{selectedState.name}</h2>
           <p className="mt-1 text-sm">
             <span
@@ -302,6 +348,68 @@ function App() {
               <h3 className="font-medium text-zinc-100">Recent Developments</h3>
               <p className="mt-1 leading-6">{selectedState.recentDevelopments || "No recent developments listed."}</p>
             </section>
+
+            {selectedStateIssuedPrograms.length ? (
+              <section className="space-y-2">
+                <h3 className="font-medium text-zinc-100">State-Issued Stablecoin</h3>
+                <div className="space-y-2">
+                  {selectedStateIssuedPrograms.map((item) => {
+                    const style = trackerStatusStyle(item.status);
+                    return (
+                      <article className="rounded-lg border border-zinc-800/90 bg-zinc-950/35 px-3 py-2.5" key={`${item.state}-${item.program}`}>
+                        <div className="flex items-start justify-between gap-2">
+                          <p className="pr-2 text-sm font-semibold leading-snug text-zinc-100">{item.program}</p>
+                          <span
+                            className="rounded-full border px-2 py-0.5 text-[11px] font-semibold leading-none"
+                            style={{
+                              backgroundColor: style.bg,
+                              borderColor: style.border,
+                              color: style.text
+                            }}
+                          >
+                            {item.status}
+                          </span>
+                        </div>
+                        <div className="mt-1.5 space-y-1 text-xs leading-5 text-zinc-400">
+                          {item.what ? (
+                            <p>
+                              <span className="font-semibold text-zinc-300">What: </span>
+                              {item.what}
+                            </p>
+                          ) : null}
+                          {item.latest ? (
+                            <p>
+                              <span className="font-semibold text-zinc-300">Latest: </span>
+                              {item.latest}
+                            </p>
+                          ) : null}
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              </section>
+            ) : null}
+
+            {selectedState.timeline?.length ? (
+              <section>
+                <h3 className="font-medium text-zinc-100">Major Legislative Timeline</h3>
+                <ul className="mt-2 space-y-1">
+                  {selectedState.timeline.map((item) => (
+                    <li className="flex items-start gap-2 text-xs text-zinc-300" key={`${selectedState.name}-${item.date}-${item.label}`}>
+                      <span aria-hidden="true" className="mt-0.5 text-zinc-500">
+                        →
+                      </span>
+                      <p title={item.detail || item.label}>
+                        <span className="font-semibold text-zinc-200">{item.date}</span>
+                        {" "}
+                        <span className="text-zinc-100">{item.label}</span>
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
 
             <section>
               <h3 className="font-medium text-zinc-100">Sources</h3>
