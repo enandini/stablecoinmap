@@ -1,6 +1,6 @@
-# US Stablecoin Regulation Map
+# U.S. Stablecoin Regulation Map
 
-Single-page React app that visualizes US state-level stablecoin and crypto regulatory posture on an interactive map.
+Single-page React app that visualizes U.S. state-level stablecoin and crypto regulatory posture on an interactive map.
 
 ## Stack
 

@@ -151,7 +151,7 @@ function App() {
     <div className="min-h-screen bg-black text-zinc-100">
       <header className="border-b border-zinc-800 bg-black/90 backdrop-blur">
         <div className="mx-auto w-full max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
-          <h1 className="text-2xl font-semibold tracking-tight">US Stablecoin Regulation Map</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">U.S. Stablecoin Regulation Map</h1>
           <p className="mt-1 text-sm text-zinc-400">
             Click any state to view current status, legal references, and recent updates.
           </p>
