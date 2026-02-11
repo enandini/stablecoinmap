@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Shield dollar favicon">
+  <defs>
+    <linearGradient id="shieldBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1f2937" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <linearGradient id="coinBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+  </defs>
+
+  <path
+    d="M32 4l20 8v15c0 13-8 24-20 33C20 51 12 40 12 27V12l20-8z"
+    fill="url(#shieldBg)"
+    stroke="#94a3b8"
+    stroke-width="2"
+    stroke-linejoin="round"
+  />
+
+  <circle cx="32" cy="30" r="12" fill="url(#coinBg)" stroke="#d1fae5" stroke-width="1.5" />
+
+  <text
+    x="32"
+    y="34.5"
+    fill="#052e16"
+    font-size="14"
+    font-family="Arial, Helvetica, sans-serif"
+    font-weight="700"
+    text-anchor="middle"
+  >
+    $
+  </text>
+</svg>
