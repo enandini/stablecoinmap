@@ -16,8 +16,8 @@ const STATUS_META = {
     chipText: "#bbf7d0"
   },
   clear_restrictive: {
-    label: "Clear + Restrictive",
-    description: "clear rules, higher compliance bar",
+    label: "Clear + Strict",
+    description: "clear rules, strict compliance bar",
     tooltipClass: "max-w-max whitespace-nowrap",
     tooltipPositionClass: "left-1/2 -translate-x-1/2",
     color: "#1e3a8a",
@@ -572,7 +572,7 @@ function App() {
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-1 px-4 py-4 text-xs text-zinc-400 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <p>Last updated: {formatDate(latestDataDate)}</p>
           <a className="underline decoration-sky-500/50 underline-offset-2 hover:text-sky-300" href="https://x.com/eshita" rel="noreferrer" target="_blank">
-            Made by Eshita
+            Maintained by Eshita
           </a>
         </div>
       </footer>
