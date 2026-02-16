@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
-import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
-import { geoCentroid } from "d3-geo";
+import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import geoUrl from "us-atlas/states-10m.json?url";
 import regulationData from "./data/stablecoinRegulation.json";
 import { ALL_STATES, FIPS_TO_ABBR, STATE_NAME_TO_ABBR } from "./data/stateMappings";
@@ -133,14 +132,6 @@ function trackerStatusStyle(status) {
   };
 }
 
-function markerStyleForProgramStatus(status) {
-  const normalized = String(status || "").toLowerCase();
-  if (normalized.includes("live") || normalized.includes("launch")) {
-    return { fill: "#22c55e", stroke: "#14532d" };
-  }
-  return { fill: "#f59e0b", stroke: "#78350f" };
-}
-
 function App() {
   const statesData = regulationData.states || regulationData;
   const federalContext = regulationData.federalContext || null;
@@ -190,14 +181,6 @@ function App() {
       return code === selectedAbbr || stateName === selectedName || directName === selectedName;
     });
   }, [selectedAbbr, selectedState?.name, stateIssuedStablecoins]);
-  const stateIssuedProgramByState = useMemo(() => {
-    const map = new Map();
-    stateIssuedStablecoins.forEach((item) => {
-      const code = String(item.state || "").trim().toUpperCase();
-      if (code && !map.has(code)) map.set(code, item);
-    });
-    return map;
-  }, [stateIssuedStablecoins]);
   const selectedRegulatoryBody = selectedState.regulatoryBody || "State financial regulator(s); see sources for detail.";
 
   return (
@@ -246,34 +229,16 @@ function App() {
           <p className="mb-3 text-xs text-zinc-400">
             Labels are stablecoin-focused: established categories indicate framework posture for issuance/operations, in-progress flags active policy movement, and no-state-framework defaults to federal baseline plus state money-transmission rules.
           </p>
-          <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-zinc-700 bg-zinc-950 px-3 py-1 text-xs text-zinc-300">
-            <span aria-hidden="true" className="inline-flex h-3 w-3 items-center justify-center rounded-full border border-amber-500 bg-amber-600 text-[9px] text-zinc-900">◆</span>
-            State-issued or state-linked stablecoin program marker
-          </p>
 
           <div className="overflow-hidden rounded-xl border border-zinc-800 bg-black">
             <ComposableMap projection="geoAlbersUsa" className="h-auto w-full">
               <Geographies geography={geoUrl}>
-                {({ geographies }) => {
-                  const mapMarkers = [];
-                  const renderedGeographies = geographies.map((geo) => {
+                {({ geographies }) =>
+                  geographies.map((geo) => {
                     const fips = String(geo.id).padStart(2, "0");
                     const abbr = FIPS_TO_ABBR[fips] || STATE_NAME_TO_ABBR[geo.properties.name];
                     const currentState = abbr ? statesData[abbr] : null;
                     const currentStatus = normalizeStatus(currentState?.status);
-                    const program = abbr ? stateIssuedProgramByState.get(abbr) : null;
-                    if (program) {
-                      const [lon, lat] = geoCentroid(geo);
-                      if (Number.isFinite(lon) && Number.isFinite(lat)) {
-                        mapMarkers.push({
-                          key: `${abbr}-${program.program}`,
-                          abbr,
-                          coordinates: [lon, lat],
-                          status: program.status,
-                          markerType: program.markerType
-                        });
-                      }
-                    }
                     const isSelected = abbr === selectedAbbr;
                     const baseFill = STATUS_META[currentStatus].color;
                     const selectedFill = shiftHexColor(baseFill, 26);
@@ -335,25 +300,8 @@ function App() {
                         }}
                       />
                     );
-                  });
-
-                  return (
-                    <>
-                      {renderedGeographies}
-                      {mapMarkers.map((marker) => {
-                        const markerColors = markerStyleForProgramStatus(marker.status);
-                        return (
-                          <Marker coordinates={marker.coordinates} key={marker.key}>
-                            <g className="pointer-events-none">
-                              <circle cx={0} cy={0} r={5.2} fill="#111827" stroke={markerColors.stroke} strokeWidth={1.2} />
-                              <path d="M0 -2.8 L2.8 0 L0 2.8 L-2.8 0 Z" fill={markerColors.fill} />
-                            </g>
-                          </Marker>
-                        );
-                      })}
-                    </>
-                  );
-                }}
+                  })
+                }
               </Geographies>
             </ComposableMap>
           </div>
@@ -506,7 +454,7 @@ function App() {
 
       {majorStateDevelopments.length || pendingFederalBills.length ? (
         <section className="mx-auto mb-6 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-lg font-semibold text-zinc-100">Legislation on the Docket</h2>
+          <h2 className="text-lg font-semibold text-zinc-100">Pending Legislation</h2>
           <p className="mt-1 text-sm text-zinc-400">Major state and federal items with clear what-it-is and current status.</p>
 
           <div className="mt-4 space-y-4">

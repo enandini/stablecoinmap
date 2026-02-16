@@ -65,18 +65,6 @@
       "lastUpdated": "2026-02-16"
     },
     {
-      "state": "NE",
-      "title": "Nebraska digital-asset bank charter implementation",
-      "what": "Nebraska's state charter framework supports digital-asset banking activity, including referenced stablecoin issuance capability.",
-      "status": "Implementation watch under existing enacted framework.",
-      "latest": "Governor and state officials announced the first-in-nation digital asset bank charter under Nebraska's existing legal framework.",
-      "sources": [
-        "https://governor.nebraska.gov/gov-pillen-signs-first-nation-digital-asset-bank-charter",
-        "https://ndbf.nebraska.gov/industries/digital-assets"
-      ],
-      "lastUpdated": "2026-02-16"
-    },
-    {
       "state": "FL",
       "title": "SB 1568 / HB 1415 - Stablecoin Pilot Program",
       "what": "Companion bills would create a Florida Department of Financial Services stablecoin pilot program.",
@@ -85,17 +73,6 @@
       "sources": [
         "https://www.flsenate.gov/Session/Bill/2026/01568",
         "https://www.flsenate.gov/Session/Bill/2026/1415"
-      ],
-      "lastUpdated": "2026-02-16"
-    },
-    {
-      "state": "FL",
-      "title": "HB 1039 - Strategic Cryptocurrency Reserve",
-      "what": "Would establish and govern a Florida Strategic Cryptocurrency Reserve.",
-      "status": "Pending legislation (2026 session).",
-      "latest": "Latest action (February 13, 2026): reported favorably by Government Operations Subcommittee.",
-      "sources": [
-        "https://www.flsenate.gov/Session/Bill/2026/1039"
       ],
       "lastUpdated": "2026-02-16"
     },
