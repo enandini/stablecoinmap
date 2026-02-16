@@ -1,13 +1,14 @@
 import { useMemo, useState } from "react";
-import { ComposableMap, Geographies, Geography } from "react-simple-maps";
+import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
+import { geoCentroid } from "d3-geo";
 import geoUrl from "us-atlas/states-10m.json?url";
 import regulationData from "./data/stablecoinRegulation.json";
 import { ALL_STATES, FIPS_TO_ABBR, STATE_NAME_TO_ABBR } from "./data/stateMappings";
 
 const STATUS_META = {
   clear_friendly: {
-    label: "Clear + Friendly",
-    description: "clearer state posture with relatively lower barriers for stablecoin-adjacent activity",
+    label: "Established Favorable",
+    description: "has stablecoin-relevant frameworks, charters, or explicit exemptions that support operations",
     tooltipClass: "max-w-max whitespace-nowrap",
     tooltipPositionClass: "left-0 translate-x-0",
     color: "#15803d",
@@ -16,8 +17,8 @@ const STATUS_META = {
     chipText: "#bbf7d0"
   },
   clear_restrictive: {
-    label: "Clear + Strict",
-    description: "enacted framework with strict licensing/compliance requirements",
+    label: "Established Restrictive",
+    description: "clear framework with higher licensing burden and compliance cost",
     tooltipClass: "max-w-max whitespace-nowrap",
     tooltipPositionClass: "left-1/2 -translate-x-1/2",
     color: "#1e3a8a",
@@ -26,8 +27,8 @@ const STATUS_META = {
     chipText: "#bfdbfe"
   },
   pending: {
-    label: "Pending",
-    description: "active stablecoin-related bills, pilots, or formal rollout activity",
+    label: "In Progress",
+    description: "active stablecoin-related bills, pilots, or money-transmission modernization",
     tooltipClass: "w-72 whitespace-normal leading-snug",
     tooltipPositionClass: "left-1/2 -translate-x-1/2",
     color: "#a16207",
@@ -36,8 +37,8 @@ const STATUS_META = {
     chipText: "#fde68a"
   },
   federal_default: {
-    label: "Federal Default",
-    description: "no enacted state-specific stablecoin framework; federal baseline plus money transmission rules",
+    label: "No State Framework",
+    description: "no meaningful state stablecoin framework identified; federal baseline plus money-transmission rules",
     tooltipClass: "w-72 whitespace-normal leading-snug",
     tooltipPositionClass: "right-0 left-auto translate-x-0",
     color: "#4b5563",
@@ -99,7 +100,7 @@ function getSourceLabel(source) {
 
 function trackerStatusStyle(status) {
   const normalized = String(status || "").toLowerCase();
-  if (normalized.includes("launch")) {
+  if (normalized.includes("launch") || normalized.includes("live")) {
     return {
       bg: "#14532d",
       border: "#22c55e",
@@ -130,6 +131,14 @@ function trackerStatusStyle(status) {
     border: "#9ca3af",
     text: "#e5e7eb"
   };
+}
+
+function markerStyleForProgramStatus(status) {
+  const normalized = String(status || "").toLowerCase();
+  if (normalized.includes("live") || normalized.includes("launch")) {
+    return { fill: "#22c55e", stroke: "#14532d" };
+  }
+  return { fill: "#f59e0b", stroke: "#78350f" };
 }
 
 function App() {
@@ -181,6 +190,15 @@ function App() {
       return code === selectedAbbr || stateName === selectedName || directName === selectedName;
     });
   }, [selectedAbbr, selectedState?.name, stateIssuedStablecoins]);
+  const stateIssuedProgramByState = useMemo(() => {
+    const map = new Map();
+    stateIssuedStablecoins.forEach((item) => {
+      const code = String(item.state || "").trim().toUpperCase();
+      if (code && !map.has(code)) map.set(code, item);
+    });
+    return map;
+  }, [stateIssuedStablecoins]);
+  const selectedRegulatoryBody = selectedState.regulatoryBody || "State financial regulator(s); see sources for detail.";
 
   return (
     <div className="min-h-screen bg-black text-zinc-100">
@@ -188,7 +206,7 @@ function App() {
         <div className="mx-auto w-full max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
           <h1 className="text-2xl font-semibold tracking-tight">U.S. Stablecoin Regulation Map</h1>
           <p className="mt-1 text-sm text-zinc-400">
-            Click any state to view current status, legal references, and recent updates.
+            How does this state treat stablecoin issuance and business operations? Click any state to view current status, legal references, and recent updates.
           </p>
         </div>
       </header>
@@ -226,18 +244,36 @@ function App() {
             })}
           </div>
           <p className="mb-3 text-xs text-zinc-400">
-            Labels are heuristic and stablecoin-focused: states with clearer frameworks or sustained policy posture map to clear categories, states without established framework but with active stablecoin efforts map to pending, and other states map to federal default.
+            Labels are stablecoin-focused: established categories indicate framework posture for issuance/operations, in-progress flags active policy movement, and no-state-framework defaults to federal baseline plus state money-transmission rules.
+          </p>
+          <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-zinc-700 bg-zinc-950 px-3 py-1 text-xs text-zinc-300">
+            <span aria-hidden="true" className="inline-flex h-3 w-3 items-center justify-center rounded-full border border-amber-500 bg-amber-600 text-[9px] text-zinc-900">◆</span>
+            State-issued or state-linked stablecoin program marker
           </p>
 
           <div className="overflow-hidden rounded-xl border border-zinc-800 bg-black">
             <ComposableMap projection="geoAlbersUsa" className="h-auto w-full">
               <Geographies geography={geoUrl}>
-                {({ geographies }) =>
-                  geographies.map((geo) => {
+                {({ geographies }) => {
+                  const mapMarkers = [];
+                  const renderedGeographies = geographies.map((geo) => {
                     const fips = String(geo.id).padStart(2, "0");
                     const abbr = FIPS_TO_ABBR[fips] || STATE_NAME_TO_ABBR[geo.properties.name];
                     const currentState = abbr ? statesData[abbr] : null;
                     const currentStatus = normalizeStatus(currentState?.status);
+                    const program = abbr ? stateIssuedProgramByState.get(abbr) : null;
+                    if (program) {
+                      const [lon, lat] = geoCentroid(geo);
+                      if (Number.isFinite(lon) && Number.isFinite(lat)) {
+                        mapMarkers.push({
+                          key: `${abbr}-${program.program}`,
+                          abbr,
+                          coordinates: [lon, lat],
+                          status: program.status,
+                          markerType: program.markerType
+                        });
+                      }
+                    }
                     const isSelected = abbr === selectedAbbr;
                     const baseFill = STATUS_META[currentStatus].color;
                     const selectedFill = shiftHexColor(baseFill, 26);
@@ -299,8 +335,25 @@ function App() {
                         }}
                       />
                     );
-                  })
-                }
+                  });
+
+                  return (
+                    <>
+                      {renderedGeographies}
+                      {mapMarkers.map((marker) => {
+                        const markerColors = markerStyleForProgramStatus(marker.status);
+                        return (
+                          <Marker coordinates={marker.coordinates} key={marker.key}>
+                            <g className="pointer-events-none">
+                              <circle cx={0} cy={0} r={5.2} fill="#111827" stroke={markerColors.stroke} strokeWidth={1.2} />
+                              <path d="M0 -2.8 L2.8 0 L0 2.8 L-2.8 0 Z" fill={markerColors.fill} />
+                            </g>
+                          </Marker>
+                        );
+                      })}
+                    </>
+                  );
+                }}
               </Geographies>
             </ComposableMap>
           </div>
@@ -334,6 +387,11 @@ function App() {
                   <li key={law}>{law}</li>
                 ))}
               </ul>
+            </section>
+
+            <section>
+              <h3 className="font-medium text-zinc-100">Regulatory Body</h3>
+              <p className="mt-1 leading-6">{selectedRegulatoryBody}</p>
             </section>
 
             <section>
