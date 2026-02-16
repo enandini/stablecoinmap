@@ -7,7 +7,7 @@ import { ALL_STATES, FIPS_TO_ABBR, STATE_NAME_TO_ABBR } from "./data/stateMappin
 const STATUS_META = {
   clear_friendly: {
     label: "Clear + Friendly",
-    description: "enacted framework with relatively builder-friendly posture",
+    description: "clearer state posture with relatively lower barriers for stablecoin-adjacent activity",
     tooltipClass: "max-w-max whitespace-nowrap",
     tooltipPositionClass: "left-0 translate-x-0",
     color: "#15803d",
@@ -120,9 +120,9 @@ function trackerStatusStyle(status) {
     || normalized.includes("committee")
   ) {
     return {
-      bg: "#7f1d1d",
-      border: "#ef4444",
-      text: "#fecaca"
+      bg: "#78350f",
+      border: "#f59e0b",
+      text: "#fde68a"
     };
   }
   return {
@@ -226,7 +226,7 @@ function App() {
             })}
           </div>
           <p className="mb-3 text-xs text-zinc-400">
-            Labels are heuristic and stablecoin-focused: enacted state frameworks map to clear categories, active state stablecoin efforts map to pending, and other states map to federal default.
+            Labels are heuristic and stablecoin-focused: states with clearer frameworks or sustained policy posture map to clear categories, active state stablecoin efforts map to pending, and other states map to federal default.
           </p>
 
           <div className="overflow-hidden rounded-xl border border-zinc-800 bg-black">
