@@ -7,7 +7,7 @@ import { ALL_STATES, FIPS_TO_ABBR, STATE_NAME_TO_ABBR } from "./data/stateMappin
 const STATUS_META = {
   clear_friendly: {
     label: "Clear + Friendly",
-    description: "clear rules, builder-friendly",
+    description: "enacted framework with relatively builder-friendly posture",
     tooltipClass: "max-w-max whitespace-nowrap",
     tooltipPositionClass: "left-0 translate-x-0",
     color: "#15803d",
@@ -17,7 +17,7 @@ const STATUS_META = {
   },
   clear_restrictive: {
     label: "Clear + Strict",
-    description: "clear rules, strict compliance bar",
+    description: "enacted framework with strict licensing/compliance requirements",
     tooltipClass: "max-w-max whitespace-nowrap",
     tooltipPositionClass: "left-1/2 -translate-x-1/2",
     color: "#1e3a8a",
@@ -27,7 +27,7 @@ const STATUS_META = {
   },
   pending: {
     label: "Pending",
-    description: "framework is in motion: active bills, pilots, or implementation steps",
+    description: "active stablecoin-related bills, pilots, or formal rollout activity",
     tooltipClass: "w-72 whitespace-normal leading-snug",
     tooltipPositionClass: "left-1/2 -translate-x-1/2",
     color: "#a16207",
@@ -37,7 +37,7 @@ const STATUS_META = {
   },
   federal_default: {
     label: "Federal Default",
-    description: "no state-specific stablecoin framework; federal baseline plus money transmission rules",
+    description: "no enacted state-specific stablecoin framework; federal baseline plus money transmission rules",
     tooltipClass: "w-72 whitespace-normal leading-snug",
     tooltipPositionClass: "right-0 left-auto translate-x-0",
     color: "#4b5563",
@@ -48,13 +48,6 @@ const STATUS_META = {
 };
 
 const STATUS_ORDER = ["clear_friendly", "clear_restrictive", "pending", "federal_default"];
-
-const STATUS_OVERRIDES_BY_STATE = {
-  FL: "pending",
-  HI: "pending",
-  AZ: "pending",
-  ND: "pending"
-};
 
 function formatDate(isoDate) {
   if (!isoDate) return "N/A";
@@ -67,11 +60,7 @@ function formatDate(isoDate) {
   }).format(value);
 }
 
-function normalizeStatus(input, stateAbbr) {
-  if (stateAbbr && STATUS_OVERRIDES_BY_STATE[stateAbbr]) {
-    return STATUS_OVERRIDES_BY_STATE[stateAbbr];
-  }
-
+function normalizeStatus(input) {
   if (!input) return "federal_default";
   if (Object.hasOwn(STATUS_META, input)) return input;
 
@@ -159,7 +148,7 @@ function App() {
     [statesData]
   );
 
-  const latestDataDate = allLastUpdated[allLastUpdated.length - 1] || "2026-02-11";
+  const latestDataDate = allLastUpdated[allLastUpdated.length - 1] || "2026-02-16";
 
   const [selectedAbbr, setSelectedAbbr] = useState("NY");
 
@@ -182,7 +171,7 @@ function App() {
     };
   }, [latestDataDate, selectedAbbr, statesData]);
 
-  const selectedStatus = normalizeStatus(selectedState.status, selectedAbbr);
+  const selectedStatus = normalizeStatus(selectedState.status);
   const selectedStateIssuedPrograms = useMemo(() => {
     const selectedName = (selectedState?.name || "").trim().toLowerCase();
     return stateIssuedStablecoins.filter((item) => {
@@ -236,6 +225,9 @@ function App() {
               );
             })}
           </div>
+          <p className="mb-3 text-xs text-zinc-400">
+            Labels are heuristic and stablecoin-focused: enacted state frameworks map to clear categories, active state stablecoin efforts map to pending, and other states map to federal default.
+          </p>
 
           <div className="overflow-hidden rounded-xl border border-zinc-800 bg-black">
             <ComposableMap projection="geoAlbersUsa" className="h-auto w-full">
@@ -245,7 +237,7 @@ function App() {
                     const fips = String(geo.id).padStart(2, "0");
                     const abbr = FIPS_TO_ABBR[fips] || STATE_NAME_TO_ABBR[geo.properties.name];
                     const currentState = abbr ? statesData[abbr] : null;
-                    const currentStatus = normalizeStatus(currentState?.status, abbr);
+                    const currentStatus = normalizeStatus(currentState?.status);
                     const isSelected = abbr === selectedAbbr;
                     const baseFill = STATUS_META[currentStatus].color;
                     const selectedFill = shiftHexColor(baseFill, 26);
@@ -466,7 +458,7 @@ function App() {
                 <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
                   {majorStateDevelopments.map((item) => {
                     const stateName = ALL_STATES[item.state] || item.state;
-                    const stateStatus = normalizeStatus(statesData[item.state]?.status, item.state);
+                    const stateStatus = normalizeStatus(statesData[item.state]?.status);
                     const statusMeta = STATUS_META[stateStatus];
                     return (
                       <article
