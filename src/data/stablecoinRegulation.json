@@ -238,14 +238,17 @@
     },
     "TX": {
       "name": "Texas",
-      "status": "pending",
-      "summary": "Texas has an active digital asset policy posture and enacted SB 21 in 2025, creating the Texas Strategic Bitcoin Reserve framework. Texas also has statutory operational requirements for qualifying digital asset service providers. For stablecoin activity, this generally acts as the main state-level baseline alongside federal requirements.",
+      "status": "friendly",
+      "summary": "Texas has a clear money-services framework that explicitly treats qualifying sovereign-backed stablecoins as monetary value for licensing and supervision purposes, alongside broader digital-asset policy activity.",
       "keyLaws": [
         "SB 21 (89R, 2025) - Texas Strategic Bitcoin Reserve and Investment Act",
+        "Texas Finance Code Chapter 152 - Money Services Businesses (effective Sept. 1, 2023)",
         "Texas Finance Code Chapter 160 - Digital Asset Service Providers"
       ],
-      "recentDevelopments": "Texas has an introduced oil-backed stablecoin bill (SB 2922) in committee and maintains existing digital-asset baseline rules under Chapter 160.",
+      "recentDevelopments": "Texas maintains a stablecoin-relevant licensing baseline under Chapter 152 and also has an introduced oil-backed stablecoin bill (SB 2922) in committee.",
       "sources": [
+        "https://statutes.capitol.texas.gov/Docs/FI/pdf/FI.152.pdf",
+        "https://www.dob.texas.gov/sites/default/files/files/Laws-Regulations/orders/2024-031.pdf",
         "https://capitol.texas.gov/billlookup/History.aspx?Bill=SB21&LegSess=89R",
         "https://capitol.texas.gov/tlodocs/89R/billtext/html/SB00021F.htm",
         "https://statutes.capitol.texas.gov/Docs/FI/pdf/FI.160.pdf",
@@ -275,8 +278,8 @@
     },
     "FL": {
       "name": "Florida",
-      "status": "pending",
-      "summary": "Florida uses a money-services framework that explicitly references digital assets in key definitions and transmitter obligations. It also enacted 2023 legislation excluding CBDCs from the UCC definition of money. For stablecoin activity, this generally acts as the main state-level baseline alongside federal requirements.",
+      "status": "friendly",
+      "summary": "Florida has a clear money-services framework that includes virtual currency transmission, with licensing, custody, and transmission standards that are relevant to stablecoin business models.",
       "keyLaws": [
         "Chapter 560, Florida Statutes (Money Services Businesses)",
         "SB 7054 (2023) - CBDC treatment under Florida UCC"
@@ -662,7 +665,7 @@
     },
     "KY": {
       "name": "Kentucky",
-      "status": "friendly",
+      "status": "none",
       "summary": "Kentucky does not currently have a dedicated stablecoin licensing statute and generally relies on baseline money transmission and financial-services rules for stablecoin-related activity.",
       "keyLaws": [
         "Kentucky money transmission and financial-services baseline requirements"
@@ -779,7 +782,7 @@
     },
     "AR": {
       "name": "Arkansas",
-      "status": "friendly",
+      "status": "none",
       "summary": "Arkansas does not currently have a dedicated stablecoin licensing regime and generally governs stablecoin-related activity through broader financial-services and money-transmission rules.",
       "keyLaws": [
         "Arkansas financial-services and money transmission baseline requirements"

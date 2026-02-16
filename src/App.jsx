@@ -226,7 +226,7 @@ function App() {
             })}
           </div>
           <p className="mb-3 text-xs text-zinc-400">
-            Labels are heuristic and stablecoin-focused: states with clearer frameworks or sustained policy posture map to clear categories, active state stablecoin efforts map to pending, and other states map to federal default.
+            Labels are heuristic and stablecoin-focused: states with clearer frameworks or sustained policy posture map to clear categories, states without established framework but with active stablecoin efforts map to pending, and other states map to federal default.
           </p>
 
           <div className="overflow-hidden rounded-xl border border-zinc-800 bg-black">
