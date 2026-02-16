@@ -189,7 +189,7 @@ function App() {
         <div className="mx-auto w-full max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
           <h1 className="text-2xl font-semibold tracking-tight">U.S. Stablecoin Regulation Map</h1>
           <p className="mt-1 text-sm text-zinc-400">
-            How does this state treat stablecoin issuance and business operations? Click any state to view current status, legal references, and recent updates.
+            Click a state to see how it treats stablecoin issuance and business operations, with key laws and latest updates.
           </p>
         </div>
       </header>
@@ -226,10 +226,6 @@ function App() {
               );
             })}
           </div>
-          <p className="mb-3 text-xs text-zinc-400">
-            Labels are stablecoin-focused: established categories indicate framework posture for issuance/operations, in-progress flags active policy movement, and no-state-framework defaults to federal baseline plus state money-transmission rules.
-          </p>
-
           <div className="overflow-hidden rounded-xl border border-zinc-800 bg-black">
             <ComposableMap projection="geoAlbersUsa" className="h-auto w-full">
               <Geographies geography={geoUrl}>
