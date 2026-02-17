@@ -156,7 +156,9 @@ function App() {
 
   const [selectedAbbr, setSelectedAbbr] = useState("NY");
   const leftColumnRef = useRef(null);
+  const legendRef = useRef(null);
   const [desktopPanelHeight, setDesktopPanelHeight] = useState(null);
+  const [activeLegendKey, setActiveLegendKey] = useState(null);
 
   const selectedState = useMemo(() => {
     const fromData = statesData[selectedAbbr];
@@ -214,6 +216,27 @@ function App() {
     };
   }, [selectedAbbr, federalContext]);
 
+  useEffect(() => {
+    if (typeof document === "undefined") return undefined;
+
+    const handlePointerDown = (event) => {
+      if (!legendRef.current?.contains(event.target)) {
+        setActiveLegendKey(null);
+      }
+    };
+
+    const handleEscape = (event) => {
+      if (event.key === "Escape") setActiveLegendKey(null);
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-black text-zinc-100">
       <header className="border-b border-zinc-800 bg-black/90 backdrop-blur">
@@ -228,21 +251,29 @@ function App() {
       <main className="mx-auto grid w-full max-w-7xl items-start gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[minmax(0,1fr),360px] lg:px-8">
         <div className="min-w-0 space-y-6" ref={leftColumnRef}>
           <section className="h-fit rounded-2xl border border-zinc-800 bg-zinc-900/85 p-4 shadow-[0_8px_40px_rgba(0,0,0,0.35)] sm:p-5">
-          <div className="mb-4 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center sm:gap-4">
+          <div className="mb-4 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center sm:gap-4" ref={legendRef}>
             {STATUS_ORDER.map((key, index) => {
               const value = STATUS_META[key];
+              const isTooltipOpen = activeLegendKey === key;
               const mobileTooltipPositionClass = index % 2 === 0
                 ? "left-0 translate-x-0"
                 : "right-0 left-auto translate-x-0";
               return (
                 <div className="group relative w-full sm:w-auto" key={key}>
-                  <div
+                  <button
+                    type="button"
                     className="inline-flex w-full items-center justify-center rounded-full border px-2.5 py-1 text-[11px] font-medium sm:w-auto sm:justify-start sm:px-3 sm:text-sm"
                     style={{
                       backgroundColor: value.chipBg,
                       borderColor: value.chipBorder,
                       color: value.chipText
                     }}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      setActiveLegendKey((prev) => (prev === key ? null : key));
+                    }}
+                    aria-controls={`legend-tooltip-${key}`}
+                    aria-expanded={isTooltipOpen}
                   >
                     <span
                       aria-hidden="true"
@@ -251,9 +282,10 @@ function App() {
                     />
                     <span className="whitespace-nowrap sm:hidden">{value.mobileLabel || value.label}</span>
                     <span className="hidden whitespace-nowrap sm:inline">{value.label}</span>
-                  </div>
+                  </button>
                   <div
-                    className={`pointer-events-none absolute top-full z-30 mt-2 rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs text-zinc-200 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100 group-active:opacity-100 ${mobileTooltipPositionClass} ${value.tooltipPositionClass || "sm:left-1/2 sm:-translate-x-1/2"} ${value.tooltipClass || "w-64 whitespace-normal"}`}
+                    id={`legend-tooltip-${key}`}
+                    className={`pointer-events-none absolute top-full z-30 mt-2 rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs text-zinc-200 transition-opacity duration-150 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 ${isTooltipOpen ? "opacity-100" : "opacity-0"} ${mobileTooltipPositionClass} ${value.tooltipPositionClass || "sm:left-1/2 sm:-translate-x-1/2"} ${value.tooltipClass || "w-64 whitespace-normal"}`}
                     title={value.description}
                   >
                     {value.description}
