@@ -636,7 +636,7 @@ function App() {
       ) : null}
 
       <footer className="bg-black/90">
-        <div className="mx-auto flex w-full max-w-7xl flex-col gap-1 px-4 py-4 text-xs text-zinc-400 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+        <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-1 px-4 py-4 text-center text-xs text-zinc-400 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:text-left lg:px-8">
           <p>Last updated: {formatDate(latestDataDate)}</p>
           <a className="underline decoration-sky-500/50 underline-offset-2 hover:text-sky-300" href="https://x.com/eshita" rel="noreferrer" target="_blank">
             Maintained by Eshita
