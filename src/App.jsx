@@ -28,7 +28,7 @@ const STATUS_META = {
   pending: {
     label: "In Progress",
     description: "active stablecoin-related bills, pilots, or money-transmission modernization",
-    tooltipClass: "w-72 whitespace-normal leading-snug",
+    tooltipClass: "w-[min(18rem,calc(100vw-2rem))] whitespace-normal leading-snug",
     tooltipPositionClass: "left-1/2 -translate-x-1/2",
     color: "#a16207",
     chipBg: "#78350f",
@@ -38,8 +38,8 @@ const STATUS_META = {
   federal_default: {
     label: "No State Framework",
     description: "no meaningful state stablecoin framework identified; federal baseline plus money-transmission rules",
-    tooltipClass: "w-72 whitespace-normal leading-snug",
-    tooltipPositionClass: "right-0 left-auto translate-x-0",
+    tooltipClass: "w-[min(18rem,calc(100vw-2rem))] whitespace-normal leading-snug",
+    tooltipPositionClass: "left-1/2 -translate-x-1/2 sm:right-0 sm:left-auto sm:translate-x-0",
     color: "#4b5563",
     chipBg: "#1f2937",
     chipBorder: "#9ca3af",
