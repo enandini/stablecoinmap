@@ -39,9 +39,9 @@ const STATUS_META = {
     chipText: "#fde68a"
   },
   federal_default: {
-    label: "Federal Default",
-    mobileLabel: "Federal Default",
-    description: "no meaningful state stablecoin framework identified; federal baseline plus money-transmission rules",
+    label: "No State Framework",
+    mobileLabel: "No State Framework",
+    description: "no meaningful state stablecoin framework identified; current baseline is existing money-transmission rules plus applicable federal law",
     tooltipClass: "w-[min(17rem,calc(100vw-2.5rem))] whitespace-normal leading-snug break-words sm:w-80",
     tooltipPositionClass: "sm:right-0 sm:left-auto sm:translate-x-0",
     color: "#4b5563",
@@ -190,6 +190,10 @@ function App() {
     });
   }, [selectedAbbr, selectedState?.name, stateIssuedStablecoins]);
   const selectedRegulatoryBody = selectedState.regulatoryBody || "State financial regulator(s); see sources for detail.";
+  const isTapTooltipMode = () => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(max-width: 639px), (hover: none), (pointer: coarse)").matches;
+  };
 
   useEffect(() => {
     const updateHeight = () => {
@@ -238,13 +242,14 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-zinc-100">
-      <header className="border-b border-zinc-800 bg-black/90 backdrop-blur">
+    <div className="min-h-screen bg-black pt-5 text-zinc-100 sm:pt-6">
+      <header className="bg-black/90 backdrop-blur">
         <div className="mx-auto w-full max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
-          <h1 className="text-2xl font-semibold tracking-tight">U.S. Stablecoin Regulation Map</h1>
-          <p className="mt-1 text-sm text-zinc-400">
-            Click a state to see how it treats stablecoin issuance and business operations, with key laws and latest updates.
+          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">U.S. Stablecoin Regulation Map</h1>
+          <p className="mt-2 text-sm text-zinc-400 sm:text-base">
+            Stablecoin regulation tracker across the U.S., including framework status, regulatory posture, and pending legislation.
           </p>
+          <p className="mt-1 text-xs text-zinc-500 sm:text-sm">Last updated: February 17, 2026</p>
         </div>
       </header>
 
@@ -269,6 +274,7 @@ function App() {
                       color: value.chipText
                     }}
                     onClick={(event) => {
+                      if (!isTapTooltipMode()) return;
                       event.stopPropagation();
                       setActiveLegendKey((prev) => (prev === key ? null : key));
                     }}
@@ -396,7 +402,7 @@ function App() {
         </div>
 
         <aside
-          className="h-fit rounded-2xl border border-zinc-800 bg-zinc-900/90 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.35)] lg:overflow-y-auto"
+          className="custom-scrollbar h-fit rounded-2xl border border-zinc-800 bg-zinc-900/90 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.35)] lg:overflow-y-auto"
           style={desktopPanelHeight ? { maxHeight: `${desktopPanelHeight}px` } : undefined}
         >
           <h2 className="text-lg font-semibold text-zinc-100">{selectedState.name}</h2>
@@ -523,7 +529,7 @@ function App() {
 
       {majorStateDevelopments.length || pendingFederalBills.length ? (
         <section className="mx-auto mb-6 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-lg font-semibold text-zinc-100">Pending Legislation</h2>
+          <h2 className="text-2xl font-semibold tracking-tight text-zinc-100 sm:text-3xl">Pending Legislation</h2>
           <p className="mt-1 text-sm text-zinc-400">Major state and federal items with clear what-it-is and current status.</p>
 
           <div className="mt-4 space-y-4">

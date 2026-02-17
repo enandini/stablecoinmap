@@ -31,3 +31,34 @@ a:hover {
 .panel-fade {
   animation: panelFadeIn 220ms ease-out;
 }
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #3f3f46 #0a0a0f;
+}
+
+/* WebKit scrollbar styling */
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #3f3f46, #27272a);
+  border-radius: 9999px;
+  border: 2px solid #0a0a0f;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #52525b, #3f3f46);
+}
+
+/* Scoped class used for panel scroll areas */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #52525b #0a0a0f;
+}
