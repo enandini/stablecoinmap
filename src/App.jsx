@@ -199,7 +199,8 @@ function App() {
       </header>
 
       <main className="mx-auto grid w-full max-w-7xl items-start gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[minmax(0,1fr),360px] lg:px-8">
-        <section className="h-fit rounded-2xl border border-zinc-800 bg-zinc-900/85 p-4 shadow-[0_8px_40px_rgba(0,0,0,0.35)] sm:p-5">
+        <div className="min-w-0 space-y-6">
+          <section className="h-fit rounded-2xl border border-zinc-800 bg-zinc-900/85 p-4 shadow-[0_8px_40px_rgba(0,0,0,0.35)] sm:p-5">
           <div className="mb-4 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center sm:gap-4">
             {STATUS_ORDER.map((key, index) => {
               const value = STATUS_META[key];
@@ -309,7 +310,31 @@ function App() {
               </Geographies>
             </ComposableMap>
           </div>
-        </section>
+          </section>
+
+          {federalContext ? (
+            <section className="rounded-2xl border border-zinc-800 bg-zinc-900/85 p-4 shadow-[0_8px_40px_rgba(0,0,0,0.35)] sm:p-5">
+              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-zinc-400">Federal Context</p>
+              <h2 className="mt-2 text-base font-semibold text-zinc-100">{federalContext.law}</h2>
+              <p className="mt-2 text-sm leading-6 text-zinc-300">{federalContext.summary}</p>
+              <p className="mt-2 text-sm text-zinc-300">
+                <span className="font-medium text-zinc-200">Signed: </span>
+                {formatDate(federalContext.signedDate)}
+              </p>
+              {federalContext.sources?.length ? (
+                <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-sky-300">
+                  {federalContext.sources.map((source) => (
+                    <li className="min-w-0" key={source}>
+                      <a className="break-all underline decoration-sky-500/50 underline-offset-2 hover:text-sky-200" href={source} rel="noreferrer" target="_blank">
+                        {getSourceLabel(source)}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </section>
+          ) : null}
+        </div>
 
         <aside className="h-fit rounded-2xl border border-zinc-800 bg-zinc-900/90 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.35)] lg:sticky lg:top-6 lg:max-h-[85vh] lg:overflow-y-auto">
           <h2 className="text-lg font-semibold text-zinc-100">{selectedState.name}</h2>
@@ -432,28 +457,6 @@ function App() {
           </div>
         </aside>
 
-        {federalContext ? (
-          <section className="rounded-2xl border border-zinc-800 bg-zinc-900/85 p-4 shadow-[0_8px_40px_rgba(0,0,0,0.35)] sm:p-5 lg:col-start-1 lg:col-end-2">
-            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-zinc-400">Federal Context</p>
-            <h2 className="mt-2 text-base font-semibold text-zinc-100">{federalContext.law}</h2>
-            <p className="mt-2 text-sm leading-6 text-zinc-300">{federalContext.summary}</p>
-            <p className="mt-2 text-sm text-zinc-300">
-              <span className="font-medium text-zinc-200">Signed: </span>
-              {formatDate(federalContext.signedDate)}
-            </p>
-            {federalContext.sources?.length ? (
-              <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-sky-300">
-                {federalContext.sources.map((source) => (
-                  <li className="min-w-0" key={source}>
-                    <a className="break-all underline decoration-sky-500/50 underline-offset-2 hover:text-sky-200" href={source} rel="noreferrer" target="_blank">
-                      {getSourceLabel(source)}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </section>
-        ) : null}
       </main>
 
       {majorStateDevelopments.length || pendingFederalBills.length ? (
