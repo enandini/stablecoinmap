@@ -7,8 +7,9 @@ import { ALL_STATES, FIPS_TO_ABBR, STATE_NAME_TO_ABBR } from "./data/stateMappin
 const STATUS_META = {
   clear_friendly: {
     label: "Established Favorable",
+    mobileLabel: "Favorable",
     description: "has stablecoin-relevant frameworks, charters, or explicit exemptions that support operations",
-    tooltipClass: "max-w-max whitespace-nowrap",
+    tooltipClass: "w-[min(17rem,calc(100vw-2.5rem))] whitespace-normal leading-snug sm:max-w-max sm:whitespace-nowrap",
     tooltipPositionClass: "left-0 translate-x-0",
     color: "#15803d",
     chipBg: "#14532d",
@@ -17,8 +18,9 @@ const STATUS_META = {
   },
   clear_restrictive: {
     label: "Established Restrictive",
+    mobileLabel: "Restrictive",
     description: "clear framework with higher licensing burden and compliance cost",
-    tooltipClass: "max-w-max whitespace-nowrap",
+    tooltipClass: "w-[min(17rem,calc(100vw-2.5rem))] whitespace-normal leading-snug sm:max-w-max sm:whitespace-nowrap",
     tooltipPositionClass: "left-1/2 -translate-x-1/2",
     color: "#1e3a8a",
     chipBg: "#1e3a8a",
@@ -27,8 +29,9 @@ const STATUS_META = {
   },
   pending: {
     label: "In Progress",
+    mobileLabel: "In Progress",
     description: "active stablecoin-related bills, pilots, or money-transmission modernization",
-    tooltipClass: "w-[min(18rem,calc(100vw-2rem))] whitespace-normal leading-snug",
+    tooltipClass: "w-[min(17rem,calc(100vw-2.5rem))] whitespace-normal leading-snug",
     tooltipPositionClass: "left-1/2 -translate-x-1/2",
     color: "#a16207",
     chipBg: "#78350f",
@@ -37,8 +40,9 @@ const STATUS_META = {
   },
   federal_default: {
     label: "No State Framework",
+    mobileLabel: "No Framework",
     description: "no meaningful state stablecoin framework identified; federal baseline plus money-transmission rules",
-    tooltipClass: "w-[min(18rem,calc(100vw-2rem))] whitespace-normal leading-snug",
+    tooltipClass: "w-[min(17rem,calc(100vw-2.5rem))] whitespace-normal leading-snug",
     tooltipPositionClass: "left-1/2 -translate-x-1/2 sm:right-0 sm:left-auto sm:translate-x-0",
     color: "#4b5563",
     chipBg: "#1f2937",
@@ -205,7 +209,7 @@ function App() {
               return (
                 <div className="group relative w-full sm:w-auto" key={key}>
                   <div
-                    className="inline-flex w-full items-center justify-center rounded-full border px-3 py-1 text-xs font-medium sm:w-auto sm:justify-start sm:text-sm"
+                    className="inline-flex w-full items-center justify-center rounded-full border px-2.5 py-1 text-[11px] font-medium sm:w-auto sm:justify-start sm:px-3 sm:text-sm"
                     style={{
                       backgroundColor: value.chipBg,
                       borderColor: value.chipBorder,
@@ -214,10 +218,11 @@ function App() {
                   >
                     <span
                       aria-hidden="true"
-                      className="mr-2 inline-block h-2.5 w-2.5 rounded-full"
+                      className="mr-1.5 inline-block h-2 w-2 rounded-full sm:mr-2 sm:h-2.5 sm:w-2.5"
                       style={{ backgroundColor: value.chipBorder }}
                     />
-                    <span>{value.label}</span>
+                    <span className="sm:hidden">{value.mobileLabel || value.label}</span>
+                    <span className="hidden sm:inline">{value.label}</span>
                   </div>
                   <div
                     className={`pointer-events-none absolute top-full z-20 mt-2 rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs text-zinc-200 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100 group-active:opacity-100 ${mobileTooltipPositionClass} ${value.tooltipPositionClass || "sm:left-1/2 sm:-translate-x-1/2"} ${value.tooltipClass || "w-64 whitespace-normal"}`}
