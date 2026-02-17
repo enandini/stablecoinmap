@@ -8,7 +8,7 @@
       "https://www.congress.gov/bill/119th-congress/senate-bill/1582/all-info",
       "https://www.whitehouse.gov/briefings-statements/2025/07/the-president-signed-into-law-s-1582/"
     ],
-    "lastUpdated": "2026-02-16"
+    "lastUpdated": "2026-02-17"
   },
   "pendingFederalBills": [
     {
@@ -17,12 +17,12 @@
       "category": "Market Structure",
       "what": "Would create a broader federal market-structure framework for digital asset spot markets and regulatory jurisdiction.",
       "status": "Passed House; referred to Senate Banking",
-      "latest": "Latest congressional action (September 18, 2025): received in Senate, read twice, and referred to Senate Banking. Latest committee scheduling update (January 15, 2026): Senate Banking executive session to consider H.R.3633 was marked POSTPONED.",
+      "latest": "Latest congressional action (September 18, 2025): received in Senate and referred to Senate Banking. Latest committee scheduling update (January 15, 2026): Senate Banking executive session to consider H.R.3633 was marked POSTPONED (no later committee action listed as of February 17, 2026).",
       "sources": [
         "https://www.congress.gov/bill/119th-congress/house-bill/3633/actions",
         "https://www.banking.senate.gov/hearings/01/09/2026/executive-session"
       ],
-      "lastUpdated": "2026-02-16"
+      "lastUpdated": "2026-02-17"
     },
     {
       "id": "HR1919",
@@ -30,11 +30,11 @@
       "category": "CBDC Policy",
       "what": "Would limit the Federal Reserve from issuing a U.S. CBDC directly to individuals and from using a CBDC for monetary policy implementation.",
       "status": "Passed House; awaiting Senate action",
-      "latest": "Latest action (July 17, 2025): House motion to reconsider laid on the table after passage. No newer Senate action is listed in Congress.gov Actions Overview as of February 16, 2026.",
+      "latest": "Latest action (July 17, 2025): House passed bill, with motion to reconsider laid on the table. No subsequent Senate action is listed in Congress.gov Actions Overview as of February 17, 2026.",
       "sources": [
         "https://www.congress.gov/bill/119th-congress/house-bill/1919/actions"
       ],
-      "lastUpdated": "2026-02-16"
+      "lastUpdated": "2026-02-17"
     },
     {
       "id": "S2207",
@@ -42,12 +42,12 @@
       "category": "Taxation",
       "what": "Would establish digital-asset-related federal tax treatment updates, including de minimis treatment discussions and related reporting/tax mechanics.",
       "status": "Introduced; pending in Senate Finance",
-      "latest": "Latest action (June 30, 2025): introduced in Senate and referred to the Committee on Finance. No newer committee or floor action is listed as of February 16, 2026.",
+      "latest": "Latest action (June 30, 2025): introduced in Senate and referred to the Committee on Finance. No newer committee or floor action is listed as of February 17, 2026.",
       "sources": [
         "https://www.congress.gov/bill/119th-congress/senate-bill/2207/actions",
         "https://www.congress.gov/bill/119th-congress/senate-bill/2207/text"
       ],
-      "lastUpdated": "2026-02-16"
+      "lastUpdated": "2026-02-17"
     }
   ],
   "majorStateDevelopments": [
@@ -61,7 +61,7 @@
         "https://dfpi.ca.gov/regulated-industries/digital-financial-assets/",
         "https://dfpi.ca.gov/rules-enforcement/laws-and-regulations/digital-financial-assets-law-regulations-opinions-releases/"
       ],
-      "lastUpdated": "2026-02-16"
+      "lastUpdated": "2026-02-17"
     },
     {
       "state": "FL",
@@ -73,7 +73,7 @@
         "https://www.flsenate.gov/Session/Bill/2026/01568",
         "https://www.flsenate.gov/Session/Bill/2026/1415"
       ],
-      "lastUpdated": "2026-02-16"
+      "lastUpdated": "2026-02-17"
     },
     {
       "state": "TX",
@@ -85,19 +85,19 @@
         "https://capitol.texas.gov/BillLookup/History.aspx?LegSess=89R&Bill=SB2922",
         "https://capitol.texas.gov/tlodocs/89R/billtext/html/SB02922I.htm"
       ],
-      "lastUpdated": "2026-02-16"
+      "lastUpdated": "2026-02-17"
     },
     {
-      "state": "ND",
-      "title": "Roughrider Coin program announcement",
-      "what": "Bank of North Dakota announced a state-linked stablecoin initiative with institutional rollout intent.",
-      "status": "Program announced; not enacted as a standalone state stablecoin statute.",
-      "latest": "Bank of North Dakota announced the Roughrider Coin program on October 8, 2025, with stated 2026 availability for North Dakota banks and credit unions; no formal enacted state stablecoin statute is listed.",
+      "state": "NY",
+      "title": "S8901 - CRYPTO Act (unlicensed activity penalties)",
+      "what": "Would add criminal penalties for unlicensed virtual currency business activity in New York (Financial Services Law § 408-b).",
+      "status": "Pending legislation (2025-2026 session).",
+      "latest": "Latest action (January 14, 2026): introduced and referred to Senate Banks; no later committee vote is listed as of February 17, 2026.",
       "sources": [
-        "https://bnd.nd.gov/bank-of-north-dakota-and-fiserv-partner-to-launch-roughrider-coin/",
-        "https://bnd.nd.gov/roughrider/"
+        "https://www.nysenate.gov/legislation/bills/2025/S8901",
+        "https://www.nysenate.gov/newsroom/in-the-news/2026/zellnor-myrie/unlicensed-crypto-businesses-could-face-criminal-charges"
       ],
-      "lastUpdated": "2026-02-16"
+      "lastUpdated": "2026-02-17"
     }
   ],
   "states": {
@@ -107,15 +107,18 @@
       "summary": "New York has one of the strictest crypto regulatory regimes. Most digital asset business activity touching New York or New York residents requires a BitLicense or trust charter, and NYDFS has specific USD-backed stablecoin issuance guidance.",
       "keyLaws": [
         "23 NYCRR Part 200 (BitLicense)",
-        "NYDFS Industry Letter on USD-Backed Stablecoins (June 8, 2022)"
+        "NYDFS Industry Letter on USD-Backed Stablecoins (June 8, 2022)",
+        "S8901 (2026) - CRYPTO Act (prohibits unlicensed virtual currency business activity with criminal penalties)"
       ],
-      "recentDevelopments": "NYDFS continues issuing digital-asset-focused supervisory and industry letters, with stablecoin reserve and redemption expectations remaining central.",
+      "recentDevelopments": "New York maintains BitLicense and stablecoin guidance. Separately, S8901 (CRYPTO Act) was introduced on January 14, 2026 and referred to Senate Banks, proposing criminal penalties for unlicensed virtual currency business activity.",
       "sources": [
         "https://www.dfs.ny.gov/virtual_currency_businesses",
         "https://www.dfs.ny.gov/industry_guidance/industry_letters/il20220608_issuance_stablecoins",
-        "https://www.dfs.ny.gov/apps_and_licensing/application_fee_schedule"
+        "https://www.dfs.ny.gov/apps_and_licensing/application_fee_schedule",
+        "https://www.nysenate.gov/legislation/bills/2025/S8901",
+        "https://www.nysenate.gov/newsroom/in-the-news/2026/zellnor-myrie/unlicensed-crypto-businesses-could-face-criminal-charges"
       ],
-      "lastUpdated": "2026-02-16",
+      "lastUpdated": "2026-02-17",
       "timeline": [
         {
           "date": "2015",
@@ -134,6 +137,12 @@
           "label": "Supervisory updates continue",
           "detail": "NYDFS continued virtual-currency supervision and related policy clarifications impacting stablecoin operations.",
           "source": "https://www.dfs.ny.gov/virtual_currency_businesses"
+        },
+        {
+          "date": "2026-01-14",
+          "label": "CRYPTO Act (S8901) introduced",
+          "detail": "S8901 was introduced and referred to Senate Banks; it proposes criminal penalties for unlicensed virtual currency business activity.",
+          "source": "https://www.nysenate.gov/legislation/bills/2025/S8901"
         }
       ],
       "regulatoryBody": "New York State Department of Financial Services (NYDFS)"
@@ -185,14 +194,15 @@
         "SPDI framework (W.S. 13-12-101 et seq.)",
         "HB0264 (2025) - state-level CBDC restrictions"
       ],
-      "recentDevelopments": "Wyoming stable token administration and related commission policy materials have continued to be published; the SPDI framework remains active.",
+      "recentDevelopments": "Wyoming stable token administration and commission materials continue. Separate non-stablecoin policy signal: Kraken announced sponsorship of federal Trump Accounts for Wyoming newborns in 2026, citing the state's crypto policy climate.",
       "sources": [
         "https://www.wyoleg.gov/2023/Enroll/SF0127.pdf",
         "https://www.wyoleg.gov/2025/Summaries/HB0264.pdf",
         "https://wyomingbankingdivision.wyo.gov/banks-and-trust-companies/special-purpose-depository-institutions",
-        "https://stabletoken.wyo.gov/assets/media/Listing%20Exchange%20Policy.pdf"
+        "https://stabletoken.wyo.gov/assets/media/Listing%20Exchange%20Policy.pdf",
+        "https://blog.kraken.com/news/sponsoring-wyoming-trump-accounts"
       ],
-      "lastUpdated": "2026-02-16",
+      "lastUpdated": "2026-02-17",
       "timeline": [
         {
           "date": "2019",
@@ -211,6 +221,12 @@
           "label": "HB0264 enacted (CBDC restrictions)",
           "detail": "Wyoming enacted HB0264, reinforcing state policy limits related to central bank digital currency use.",
           "source": "https://www.wyoleg.gov/2025/Summaries/HB0264.pdf"
+        },
+        {
+          "date": "2026-02-16",
+          "label": "Kraken Trump Accounts sponsorship announced",
+          "detail": "Kraken announced it would sponsor federal Trump Accounts for Wyoming newborns in 2026 as a Wyoming crypto-policy ecosystem signal.",
+          "source": "https://blog.kraken.com/news/sponsoring-wyoming-trump-accounts"
         }
       ],
       "regulatoryBody": "Wyoming Division of Banking; Wyoming Stable Token Commission"
