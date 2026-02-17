@@ -196,13 +196,16 @@ function App() {
 
       <main className="mx-auto grid w-full max-w-7xl gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[minmax(0,1fr),360px] lg:px-8">
         <section className="rounded-2xl border border-zinc-800 bg-zinc-900/85 p-4 shadow-[0_8px_40px_rgba(0,0,0,0.35)] sm:p-5">
-          <div className="mb-4 flex flex-wrap items-center gap-4">
-            {STATUS_ORDER.map((key) => {
+          <div className="mb-4 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center sm:gap-4">
+            {STATUS_ORDER.map((key, index) => {
               const value = STATUS_META[key];
+              const mobileTooltipPositionClass = index % 2 === 0
+                ? "left-0 translate-x-0"
+                : "right-0 left-auto translate-x-0";
               return (
-                <div className="group relative" key={key}>
+                <div className="group relative w-full sm:w-auto" key={key}>
                   <div
-                    className="inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium sm:text-sm"
+                    className="inline-flex w-full items-center justify-center rounded-full border px-3 py-1 text-xs font-medium sm:w-auto sm:justify-start sm:text-sm"
                     style={{
                       backgroundColor: value.chipBg,
                       borderColor: value.chipBorder,
@@ -217,7 +220,7 @@ function App() {
                     <span>{value.label}</span>
                   </div>
                   <div
-                    className={`pointer-events-none absolute top-full z-20 mt-2 rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs text-zinc-200 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100 ${value.tooltipPositionClass || "left-1/2 -translate-x-1/2"} ${value.tooltipClass || "w-64 whitespace-normal"}`}
+                    className={`pointer-events-none absolute top-full z-20 mt-2 rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs text-zinc-200 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100 group-active:opacity-100 ${mobileTooltipPositionClass} ${value.tooltipPositionClass || "sm:left-1/2 sm:-translate-x-1/2"} ${value.tooltipClass || "w-64 whitespace-normal"}`}
                     title={value.description}
                   >
                     {value.description}
