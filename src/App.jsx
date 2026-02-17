@@ -9,7 +9,7 @@ const STATUS_META = {
     label: "Clear + Favorable",
     mobileLabel: "Clear + Favorable",
     description: "has stablecoin-relevant frameworks, charters, or explicit exemptions that support operations",
-    tooltipClass: "w-[min(17rem,calc(100vw-2.5rem))] whitespace-normal leading-snug sm:max-w-max sm:whitespace-nowrap",
+    tooltipClass: "w-[min(17rem,calc(100vw-2.5rem))] whitespace-normal leading-snug break-words sm:w-80",
     tooltipPositionClass: "left-0 translate-x-0",
     color: "#15803d",
     chipBg: "#14532d",
@@ -20,7 +20,7 @@ const STATUS_META = {
     label: "Clear + Strict",
     mobileLabel: "Clear + Strict",
     description: "clear framework with higher licensing burden and compliance cost",
-    tooltipClass: "w-[min(17rem,calc(100vw-2.5rem))] whitespace-normal leading-snug sm:max-w-max sm:whitespace-nowrap",
+    tooltipClass: "w-[min(17rem,calc(100vw-2.5rem))] whitespace-normal leading-snug break-words sm:w-80",
     tooltipPositionClass: "left-1/2 -translate-x-1/2",
     color: "#1e3a8a",
     chipBg: "#1e3a8a",
@@ -31,7 +31,7 @@ const STATUS_META = {
     label: "Pending",
     mobileLabel: "Pending",
     description: "active stablecoin-related bills, pilots, or money-transmission modernization",
-    tooltipClass: "w-[min(17rem,calc(100vw-2.5rem))] whitespace-normal leading-snug",
+    tooltipClass: "w-[min(17rem,calc(100vw-2.5rem))] whitespace-normal leading-snug break-words sm:w-80",
     tooltipPositionClass: "left-1/2 -translate-x-1/2",
     color: "#a16207",
     chipBg: "#78350f",
@@ -42,7 +42,7 @@ const STATUS_META = {
     label: "Federal Default",
     mobileLabel: "Federal Default",
     description: "no meaningful state stablecoin framework identified; federal baseline plus money-transmission rules",
-    tooltipClass: "w-[min(17rem,calc(100vw-2.5rem))] whitespace-normal leading-snug",
+    tooltipClass: "w-[min(17rem,calc(100vw-2.5rem))] whitespace-normal leading-snug break-words sm:w-80",
     tooltipPositionClass: "left-1/2 -translate-x-1/2 sm:right-0 sm:left-auto sm:translate-x-0",
     color: "#4b5563",
     chipBg: "#1f2937",
@@ -198,8 +198,8 @@ function App() {
         </div>
       </header>
 
-      <main className="mx-auto grid w-full max-w-7xl gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[minmax(0,1fr),360px] lg:px-8">
-        <section className="rounded-2xl border border-zinc-800 bg-zinc-900/85 p-4 shadow-[0_8px_40px_rgba(0,0,0,0.35)] sm:p-5">
+      <main className="mx-auto grid w-full max-w-7xl items-start gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[minmax(0,1fr),360px] lg:px-8">
+        <section className="h-fit rounded-2xl border border-zinc-800 bg-zinc-900/85 p-4 shadow-[0_8px_40px_rgba(0,0,0,0.35)] sm:p-5">
           <div className="mb-4 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center sm:gap-4">
             {STATUS_ORDER.map((key, index) => {
               const value = STATUS_META[key];
@@ -225,7 +225,7 @@ function App() {
                     <span className="hidden whitespace-nowrap sm:inline">{value.label}</span>
                   </div>
                   <div
-                    className={`pointer-events-none absolute top-full z-20 mt-2 rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs text-zinc-200 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100 group-active:opacity-100 ${mobileTooltipPositionClass} ${value.tooltipPositionClass || "sm:left-1/2 sm:-translate-x-1/2"} ${value.tooltipClass || "w-64 whitespace-normal"}`}
+                    className={`pointer-events-none absolute top-full z-30 mt-2 rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs text-zinc-200 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100 group-active:opacity-100 ${mobileTooltipPositionClass} ${value.tooltipPositionClass || "sm:left-1/2 sm:-translate-x-1/2"} ${value.tooltipClass || "w-64 whitespace-normal"}`}
                     title={value.description}
                   >
                     {value.description}
@@ -235,7 +235,7 @@ function App() {
             })}
           </div>
           <div className="overflow-hidden rounded-xl border border-zinc-800 bg-black">
-            <ComposableMap projection="geoAlbersUsa" className="h-auto w-full">
+            <ComposableMap projection="geoAlbersUsa" className="block h-auto w-full">
               <Geographies geography={geoUrl}>
                 {({ geographies }) =>
                   geographies.map((geo) => {
