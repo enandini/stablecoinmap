@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import geoUrl from "us-atlas/states-10m.json?url";
 import regulationData from "./data/stablecoinRegulation.json";
@@ -10,7 +10,7 @@ const STATUS_META = {
     mobileLabel: "Clear + Favorable",
     description: "has stablecoin-relevant frameworks, charters, or explicit exemptions that support operations",
     tooltipClass: "w-[min(17rem,calc(100vw-2.5rem))] whitespace-normal leading-snug break-words sm:w-80",
-    tooltipPositionClass: "left-0 translate-x-0",
+    tooltipPositionClass: "sm:left-0 sm:translate-x-0",
     color: "#15803d",
     chipBg: "#14532d",
     chipBorder: "#22c55e",
@@ -21,7 +21,7 @@ const STATUS_META = {
     mobileLabel: "Clear + Strict",
     description: "clear framework with higher licensing burden and compliance cost",
     tooltipClass: "w-[min(17rem,calc(100vw-2.5rem))] whitespace-normal leading-snug break-words sm:w-80",
-    tooltipPositionClass: "left-1/2 -translate-x-1/2",
+    tooltipPositionClass: "sm:left-0 sm:translate-x-0",
     color: "#1e3a8a",
     chipBg: "#1e3a8a",
     chipBorder: "#60a5fa",
@@ -32,7 +32,7 @@ const STATUS_META = {
     mobileLabel: "Pending",
     description: "active stablecoin-related bills, pilots, or money-transmission modernization",
     tooltipClass: "w-[min(17rem,calc(100vw-2.5rem))] whitespace-normal leading-snug break-words sm:w-80",
-    tooltipPositionClass: "left-1/2 -translate-x-1/2",
+    tooltipPositionClass: "sm:left-0 sm:translate-x-0",
     color: "#a16207",
     chipBg: "#78350f",
     chipBorder: "#f59e0b",
@@ -43,7 +43,7 @@ const STATUS_META = {
     mobileLabel: "Federal Default",
     description: "no meaningful state stablecoin framework identified; federal baseline plus money-transmission rules",
     tooltipClass: "w-[min(17rem,calc(100vw-2.5rem))] whitespace-normal leading-snug break-words sm:w-80",
-    tooltipPositionClass: "left-1/2 -translate-x-1/2 sm:right-0 sm:left-auto sm:translate-x-0",
+    tooltipPositionClass: "sm:right-0 sm:left-auto sm:translate-x-0",
     color: "#4b5563",
     chipBg: "#1f2937",
     chipBorder: "#9ca3af",
@@ -155,6 +155,8 @@ function App() {
   const latestDataDate = allLastUpdated[allLastUpdated.length - 1] || "2026-02-16";
 
   const [selectedAbbr, setSelectedAbbr] = useState("NY");
+  const leftColumnRef = useRef(null);
+  const [desktopPanelHeight, setDesktopPanelHeight] = useState(null);
 
   const selectedState = useMemo(() => {
     const fromData = statesData[selectedAbbr];
@@ -187,6 +189,31 @@ function App() {
   }, [selectedAbbr, selectedState?.name, stateIssuedStablecoins]);
   const selectedRegulatoryBody = selectedState.regulatoryBody || "State financial regulator(s); see sources for detail.";
 
+  useEffect(() => {
+    const updateHeight = () => {
+      if (typeof window === "undefined") return;
+      if (window.innerWidth < 1024) {
+        setDesktopPanelHeight(null);
+        return;
+      }
+      const nextHeight = leftColumnRef.current?.getBoundingClientRect().height;
+      setDesktopPanelHeight(nextHeight ? Math.round(nextHeight) : null);
+    };
+
+    updateHeight();
+    window.addEventListener("resize", updateHeight);
+
+    const observer = typeof ResizeObserver !== "undefined"
+      ? new ResizeObserver(updateHeight)
+      : null;
+    if (observer && leftColumnRef.current) observer.observe(leftColumnRef.current);
+
+    return () => {
+      window.removeEventListener("resize", updateHeight);
+      if (observer) observer.disconnect();
+    };
+  }, [selectedAbbr, federalContext]);
+
   return (
     <div className="min-h-screen bg-black text-zinc-100">
       <header className="border-b border-zinc-800 bg-black/90 backdrop-blur">
@@ -199,7 +226,7 @@ function App() {
       </header>
 
       <main className="mx-auto grid w-full max-w-7xl items-start gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[minmax(0,1fr),360px] lg:px-8">
-        <div className="min-w-0 space-y-6">
+        <div className="min-w-0 space-y-6" ref={leftColumnRef}>
           <section className="h-fit rounded-2xl border border-zinc-800 bg-zinc-900/85 p-4 shadow-[0_8px_40px_rgba(0,0,0,0.35)] sm:p-5">
           <div className="mb-4 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center sm:gap-4">
             {STATUS_ORDER.map((key, index) => {
@@ -336,7 +363,10 @@ function App() {
           ) : null}
         </div>
 
-        <aside className="h-fit rounded-2xl border border-zinc-800 bg-zinc-900/90 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.35)] lg:sticky lg:top-6 lg:max-h-[85vh] lg:overflow-y-auto">
+        <aside
+          className="h-fit rounded-2xl border border-zinc-800 bg-zinc-900/90 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.35)] lg:overflow-y-auto"
+          style={desktopPanelHeight ? { maxHeight: `${desktopPanelHeight}px` } : undefined}
+        >
           <h2 className="text-lg font-semibold text-zinc-100">{selectedState.name}</h2>
           <p className="mt-1 text-sm">
             <span
