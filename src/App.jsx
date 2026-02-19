@@ -378,7 +378,7 @@ function App() {
           </section>
 
           {federalContext ? (
-            <section className="rounded-2xl border border-zinc-800 bg-zinc-900/85 p-4 shadow-[0_8px_40px_rgba(0,0,0,0.35)] sm:p-5">
+            <section className="hidden rounded-2xl border border-zinc-800 bg-zinc-900/85 p-4 shadow-[0_8px_40px_rgba(0,0,0,0.35)] sm:p-5 lg:block">
               <p className="text-xs font-semibold uppercase tracking-[0.12em] text-zinc-400">Federal Context</p>
               <h2 className="mt-2 text-base font-semibold text-zinc-100">{federalContext.law}</h2>
               <p className="mt-2 text-sm leading-6 text-zinc-300">{federalContext.summary}</p>
