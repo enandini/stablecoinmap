@@ -249,7 +249,7 @@ function App() {
           <p className="mt-2 text-sm text-zinc-400 sm:text-base">
             Stablecoin regulation tracker across the U.S., including framework status, regulatory posture, and pending legislation.
           </p>
-          <p className="mt-1 text-xs text-zinc-500 sm:text-sm">Last updated: February 17, 2026</p>
+          <p className="mt-1 text-xs text-zinc-500 sm:text-sm">Last updated: {formatDate(latestDataDate)}</p>
         </div>
       </header>
 
