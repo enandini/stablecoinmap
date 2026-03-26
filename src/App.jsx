@@ -53,7 +53,7 @@ const STATUS_META = {
 
 const STATUS_ORDER = ["clear_friendly", "clear_restrictive", "pending", "federal_default"];
 const DEFAULT_STATE_ABBR = "NY";
-const BILL_ID_PATTERN = /\b(?:CS\/CS\/|CS\/)?(?:H\.R\.|S\.|HB|SB|AB|A|HR)\s*\d+[A-Z0-9-]*\b/gi;
+const BILL_ID_PATTERN = /\b(?:CS\/CS\/|CS\/)?(?:H\.?R\.?|S\.?|HB|SB|AB|A|HR)\s*\.?-?\s*\d+[A-Z0-9-]*\b/gi;
 
 function normalizeLookup(value) {
   return String(value || "").trim().toLowerCase();
@@ -111,6 +111,17 @@ function shiftHexColor(hex, amount) {
   const b = clamp((num & 0x0000ff) + amount);
 
   return `#${(r << 16 | g << 8 | b).toString(16).padStart(6, "0")}`;
+}
+
+function hexToRgba(hex, alpha = 1) {
+  const normalized = String(hex || "").replace("#", "");
+  if (normalized.length !== 6) return `rgba(255,255,255,${alpha})`;
+  const num = Number.parseInt(normalized, 16);
+  if (Number.isNaN(num)) return `rgba(255,255,255,${alpha})`;
+  const r = (num >> 16) & 255;
+  const g = (num >> 8) & 255;
+  const b = num & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
 function getSourceLabel(source) {
@@ -171,7 +182,6 @@ function getSourceContextLabel(source) {
     if (/congress\.gov$/i.test(hostname)) {
       const billMatch = pathname.match(/\/bill\/\d+th-congress\/(senate-bill|house-bill)\/(\d+)(?:\/([^/]+))?/i);
       if (billMatch) {
-        const prefix = billMatch[1].toLowerCase() === "senate-bill" ? "S." : "H.R.";
         const section = billMatch[3]?.toLowerCase();
         const sectionLabelMap = {
           text: "bill text",
@@ -179,13 +189,13 @@ function getSourceContextLabel(source) {
           "all-info": "bill overview"
         };
         const sectionLabel = section ? (sectionLabelMap[section] || formatPathText(section)) : "bill page";
-        return `${prefix}${billMatch[2]} ${sectionLabel}`;
+        return `Congress ${sectionLabel}`;
       }
     }
 
     if (/nysenate\.gov$/i.test(hostname)) {
       const billMatch = pathname.match(/\/legislation\/bills\/\d{4}\/([A-Z]\d+[A-Z0-9]*)/i);
-      if (billMatch) return `${billMatch[1].toUpperCase()} bill page`;
+      if (billMatch) return "bill page";
       if (pathname.includes("/newsroom/")) return "newsroom update";
     }
 
@@ -202,7 +212,7 @@ function getSourceContextLabel(source) {
 
     if (/flsenate\.gov$/i.test(hostname)) {
       const billSummaryMatch = pathname.match(/\/billsummaries\/\d+\/html\/(\d+)/i);
-      if (billSummaryMatch) return `bill summary ${billSummaryMatch[1]}`;
+      if (billSummaryMatch) return "bill summary";
       if (pathname.includes("/laws/statutes/")) return "statutes reference";
     }
 
@@ -312,11 +322,115 @@ function cleanCardTitle(value) {
   return cleaned || String(value || "").trim();
 }
 
+function stripBillCodes(value) {
+  return String(value || "")
+    .replace(/\(\s*(?:H\.?R\.?|S\.?|HB|SB|AB|A|HR)\s*\.?-?\s*\d+[A-Z0-9-]*\s*\)/gi, "")
+    .replace(BILL_ID_PATTERN, "")
+    .replace(/\s{2,}/g, " ")
+    .replace(/\s+([,.;:])/g, "$1")
+    .trim();
+}
+
+function compactFederalText(value) {
+  return String(value || "")
+    .replace(/^Latest (congressional )?action remains\s*/i, "")
+    .replace(/^Latest action remains\s*/i, "")
+    .replace(/is listed in Congress\.gov Actions Overview/gi, "")
+    .replace(/as of [A-Za-z]+ \d{1,2}, \d{4}\.?/gi, "")
+    .replace(/No subsequent Senate action is listed\.?/gi, "No further Senate action.")
+    .replace(/No subsequent Senate action\.?/gi, "No further Senate action.")
+    .replace(/No newer committee or floor action is listed\.?/gi, "No further committee or floor action.")
+    .replace(/no later committee action is listed\.?/gi, "No later committee action.")
+    .replace(/\s{2,}/g, " ")
+    .replace(/\s+([,.;:])/g, "$1")
+    .trim();
+}
+
+function compactLatestDisplay(value) {
+  const cleaned = stripBillCodes(compactFederalText(value || ""));
+  if (!cleaned) return "";
+  const sentences = cleaned
+    .split(/(?<=[.!?])\s+/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  if (sentences.length <= 1) return cleaned;
+  const first = sentences[0];
+  const tail = sentences.find((sentence) => /^No (further|later)/i.test(sentence));
+  return [first, tail].filter(Boolean).join(" ").trim();
+}
+
+function cleanTimelineLabel(value) {
+  const cleaned = stripBillCodes(value || "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+
+  if (!cleaned) return "";
+  if (/^enacted\s*\((.+)\)$/i.test(cleaned)) {
+    return cleaned.replace(/^enacted\s*\((.+)\)$/i, "$1 enacted");
+  }
+  if (/^modernized money-services law$/i.test(cleaned)) return "Money-services law modernized";
+  if (/^first reading\s*\(finance\)$/i.test(cleaned)) return "First reading in Finance";
+  if (/^hearing held$/i.test(cleaned)) return "Committee hearing held";
+  if (/^favorable report$/i.test(cleaned)) return "Favorable committee report";
+
+  return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+}
+
 function mergeNarrativeParts(parts) {
   return parts
     .map((part) => normalizeCardText(part || ""))
     .filter(Boolean)
     .join(" ");
+}
+
+function abbreviateLongDates(value) {
+  const months = {
+    january: "Jan",
+    february: "Feb",
+    march: "Mar",
+    april: "Apr",
+    may: "May",
+    june: "Jun",
+    july: "Jul",
+    august: "Aug",
+    september: "Sep",
+    october: "Oct",
+    november: "Nov",
+    december: "Dec"
+  };
+  return String(value || "").replace(
+    /\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},\s*(20\d{2})\b/gi,
+    (_, month, year) => `${months[String(month).toLowerCase()]} ${year}`
+  );
+}
+
+function cleanStateWatchTitle(value) {
+  const text = String(value || "").trim();
+  if (!text) return "";
+  const withoutBillCodes = text
+    .replace(BILL_ID_PATTERN, "")
+    .replace(/\(\s*(?:H\.?R\.?|S\.?|HB|SB|AB|A|HR)\s*\.?-?\s*\d+[A-Z0-9-]*\s*\)/gi, "")
+    .replace(/\s*\/\s*/g, " ")
+    .replace(/\s*\+\s*/g, " ")
+    .replace(/\s*-\s*/g, " - ")
+    .replace(/^[^A-Za-z]+/g, "")
+    .replace(/^[\-:–—\s]+/g, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+  return withoutBillCodes || text;
+}
+
+function compactStateWatchText(value) {
+  return String(value || "")
+    .replace(BILL_ID_PATTERN, "")
+    .replace(/\(\s*[^)]*§\s*[^)]*\)/gi, "")
+    .replace(/\b[A-Za-z ]+Law\s*§\s*\d+[a-z0-9.-]*/gi, "")
+    .replace(/§\s*\d+[a-z0-9.-]*/gi, "")
+    .replace(/\s*\/\s*/g, " ")
+    .replace(/\s{2,}/g, " ")
+    .replace(/\s+([,.;:])/g, "$1")
+    .trim();
 }
 
 function PanelAccordionSection({
@@ -448,6 +562,8 @@ function App() {
   const leftColumnRef = useRef(null);
   const legendRef = useRef(null);
   const stateSearchRef = useRef(null);
+  const detailPanelRef = useRef(null);
+  const previousSelectedAbbrRef = useRef(null);
   const [desktopPanelHeight, setDesktopPanelHeight] = useState(null);
   const [activeStatusFilter, setActiveStatusFilter] = useState(null);
   const [stateSearchQuery, setStateSearchQuery] = useState("");
@@ -475,6 +591,7 @@ function App() {
   }, [latestDataDate, selectedAbbr, statesData]);
 
   const selectedStatus = normalizeStatus(selectedState.status);
+  const selectedStatusMeta = STATUS_META[selectedStatus];
   const selectedStateIssuedPrograms = useMemo(() => {
     const selectedName = (selectedState?.name || "").trim().toLowerCase();
     return stateIssuedStablecoins.filter((item) => {
@@ -516,6 +633,19 @@ function App() {
 
   useEffect(() => {
     setActivePanelSection("summary");
+  }, [selectedAbbr]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const previous = previousSelectedAbbrRef.current;
+    previousSelectedAbbrRef.current = selectedAbbr;
+    if (!previous || previous === selectedAbbr) return;
+    if (window.innerWidth >= 1024) return;
+
+    detailPanelRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
   }, [selectedAbbr]);
 
   useEffect(() => {
@@ -588,36 +718,34 @@ function App() {
   }, [selectedAbbr, selectedState.name, selectedState.summary]);
 
   return (
-    <div className="min-h-screen bg-black pt-5 text-zinc-100 sm:pt-6">
-      <header className="bg-black/90 backdrop-blur">
+    <div className="min-h-screen bg-[#080b12] pt-5 text-zinc-100 sm:pt-6">
+      <header className="bg-[#080b12]/95 backdrop-blur">
         <div className="mx-auto w-full max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">United States Stablecoin Regulation</h1>
+          <p className="mt-3 text-sm text-zinc-400 sm:text-base">
+            State-by-state tracker of stablecoin frameworks, bills, and regulatory activity.
+          </p>
         </div>
       </header>
 
       <main className="mx-auto grid w-full max-w-7xl items-start gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[minmax(0,1fr),360px] lg:px-8">
         <div className="min-w-0 space-y-6" ref={leftColumnRef}>
-          <section className="h-fit rounded-2xl border border-zinc-800 bg-zinc-900/85 p-4 shadow-[0_8px_40px_rgba(0,0,0,0.35)] sm:p-5">
-          <div className="mb-5 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center sm:gap-3" ref={legendRef}>
+          <section className="h-fit px-0">
+          <div className="mb-7 flex flex-wrap items-center gap-x-5 gap-y-3 border-b border-zinc-800/80 pb-4 sm:flex-nowrap sm:overflow-x-auto" ref={legendRef}>
             {STATUS_ORDER.map((key, index) => {
               const value = STATUS_META[key];
               const isFilterActive = activeStatusFilter === key;
-              const hasActiveFilter = Boolean(activeStatusFilter);
-              const chipOpacity = !hasActiveFilter || isFilterActive ? 1 : 0.46;
               const mobileTooltipPositionClass = index % 2 === 0
                 ? "left-0 translate-x-0"
                 : "right-0 left-auto translate-x-0";
               return (
-                <div className="group relative w-full sm:w-auto" key={key}>
+                <div className="group relative shrink-0" key={key}>
                   <button
                     type="button"
-                    className="inline-flex w-full items-center justify-center rounded-xl border px-3 py-1.5 text-[11px] font-semibold tracking-[0.01em] sm:w-auto sm:justify-start sm:px-3.5 sm:text-sm"
+                    className="inline-flex items-center gap-2 border-b pb-1 text-sm font-medium transition-colors"
                     style={{
-                      backgroundColor: value.chipBg,
-                      borderColor: value.chipBorder,
-                      color: value.chipText,
-                      opacity: chipOpacity,
-                      boxShadow: isFilterActive ? `0 0 0 1px ${value.chipBorder}` : "none"
+                      borderColor: isFilterActive ? value.chipBorder : "transparent",
+                      color: isFilterActive ? "#f4f4f5" : "#9ca3af"
                     }}
                     onClick={() => {
                       setActiveStatusFilter((prev) => (prev === key ? null : key));
@@ -627,11 +755,10 @@ function App() {
                   >
                     <span
                       aria-hidden="true"
-                      className="mr-2 inline-block h-2.5 w-2.5 rounded-[4px]"
+                      className="inline-block h-2.5 w-2.5 rounded-full"
                       style={{ backgroundColor: value.chipBorder }}
                     />
-                    <span className="whitespace-nowrap sm:hidden">{value.mobileLabel || value.label}</span>
-                    <span className="hidden whitespace-nowrap sm:inline">{value.label}</span>
+                    <span className="whitespace-nowrap">{value.label}</span>
                   </button>
                   <div
                     id={`legend-tooltip-${key}`}
@@ -644,7 +771,7 @@ function App() {
               );
             })}
           </div>
-          <div className="overflow-hidden rounded-xl border border-zinc-800 bg-black">
+          <div className="relative overflow-hidden rounded-xl bg-[#05070d]">
             <ComposableMap projection="geoAlbersUsa" className="block h-auto w-full">
               <Geographies geography={geoUrl}>
                 {({ geographies }) =>
@@ -726,16 +853,31 @@ function App() {
         </div>
 
         <aside
-          className="custom-scrollbar h-fit rounded-2xl border border-zinc-800 bg-zinc-900/90 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.35)] lg:overflow-y-auto"
-          style={desktopPanelHeight ? { maxHeight: `${desktopPanelHeight}px` } : undefined}
+          ref={detailPanelRef}
+          className="custom-scrollbar h-fit rounded-2xl border bg-[#0f131c]/95 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.35)] lg:overflow-y-auto"
+          style={{
+            ...(desktopPanelHeight ? { maxHeight: `${desktopPanelHeight}px` } : {}),
+            borderColor: hexToRgba(selectedStatusMeta.chipBorder, 0.5)
+          }}
         >
           <div className="relative mb-4" ref={stateSearchRef}>
-            <label className="mb-1 block text-xs font-medium uppercase tracking-[0.09em] text-zinc-400" htmlFor="state-search-input">
-              Search State
-            </label>
+            <svg
+              aria-hidden="true"
+              className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="11" cy="11" r="7" />
+              <line x1="16.65" x2="21" y1="16.65" y2="21" />
+            </svg>
             <input
               id="state-search-input"
               type="text"
+              aria-label="Search a state"
               autoComplete="off"
               spellCheck={false}
               placeholder="Search a state..."
@@ -757,7 +899,7 @@ function App() {
               onBlur={() => {
                 window.setTimeout(() => setIsStateSearchOpen(false), 100);
               }}
-              className="w-full rounded-lg border border-zinc-700 bg-zinc-950/80 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
+              className="w-full rounded-lg border border-zinc-700 bg-zinc-950/80 py-2.5 pl-10 pr-3 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
             />
             {isStateSearchOpen && stateSearchResults.length ? (
               <ul className="absolute z-40 mt-1 max-h-60 w-full overflow-y-auto rounded-lg border border-zinc-700 bg-zinc-950 py-1 shadow-xl">
@@ -780,19 +922,11 @@ function App() {
             ) : null}
           </div>
 
-          <h2 className="text-2xl font-semibold tracking-tight text-zinc-100">{selectedState.name}</h2>
-          <p className="mt-1 text-sm">
-            <span
-              className="inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold"
-              style={{
-                backgroundColor: STATUS_META[selectedStatus].chipBg,
-                color: STATUS_META[selectedStatus].chipText,
-                borderColor: STATUS_META[selectedStatus].chipBorder
-              }}
-            >
-              {STATUS_META[selectedStatus].label}
-            </span>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-zinc-400">
+            Status: {selectedStatusMeta.label}
           </p>
+          <h2 className="mt-1 text-3xl font-bold tracking-tight text-zinc-100">{selectedState.name}</h2>
+          <div className="mt-4 h-px w-full bg-zinc-800" />
 
           <div className="mt-5 space-y-4 text-sm text-zinc-300 panel-fade" key={selectedAbbr}>
             <PanelAccordionSection
@@ -884,11 +1018,26 @@ function App() {
                       {index < timelineEntries.length - 1 ? (
                         <span aria-hidden="true" className="absolute left-[7px] top-3 h-[calc(100%+0.75rem)] w-px bg-zinc-700" />
                       ) : null}
-                      <span aria-hidden="true" className="absolute left-[3px] top-1.5 h-2.5 w-2.5 rounded-full border border-zinc-900 bg-zinc-300" />
+                      <span
+                        aria-hidden="true"
+                        className="absolute left-[3px] top-1.5 h-2.5 w-2.5 rounded-full border"
+                        style={
+                          index === timelineEntries.length - 1
+                            ? {
+                              borderColor: selectedStatusMeta.chipBorder,
+                              backgroundColor: selectedStatusMeta.chipBorder,
+                              boxShadow: `0 0 0 4px ${hexToRgba(selectedStatusMeta.chipBorder, 0.15)}`
+                            }
+                            : {
+                              borderColor: "#18181b",
+                              backgroundColor: "#71717a"
+                            }
+                        }
+                      />
                       <p className="leading-6" title={item.detail || item.label}>
                         <span className="font-semibold text-zinc-100">{item.date}</span>
                         {" "}
-                        <span className="text-zinc-200">{ensureSentenceEnding(item.label)}</span>
+                        <span className="text-zinc-200">{ensureSentenceEnding(cleanTimelineLabel(item.label))}</span>
                       </p>
                     </li>
                   ))}
@@ -921,8 +1070,8 @@ function App() {
 
           <div className="mt-4 space-y-4">
             {majorStateDevelopments.length ? (
-              <div className="rounded-2xl border border-zinc-800 bg-zinc-900/90 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.35)]">
-                <p className="text-lg font-semibold tracking-tight text-zinc-100 sm:text-xl">State Legislative / Policy Watch</p>
+              <div className="rounded-2xl border border-zinc-800 bg-[#0f131c]/95 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.35)]">
+                <p className="text-lg font-semibold tracking-tight text-zinc-100 sm:text-xl">Major Pending State</p>
                 <div className="mt-2 h-px w-full bg-zinc-800" />
                 <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                   {majorStateDevelopments.map((item) => {
@@ -930,9 +1079,11 @@ function App() {
                     const stateStatus = normalizeStatus(statesData[item.state]?.status);
                     const statusMeta = STATUS_META[stateStatus];
                     const cardKey = `state-${item.state}-${item.title}`;
-                    const cardTitle = cleanCardTitle(item.title);
-                    const summaryText = normalizeCardText(item.what || "State policy development affecting digital assets and stablecoins.");
-                    const updateText = mergeNarrativeParts([item.status, item.latest]);
+                    const cardTitle = cleanStateWatchTitle(item.title);
+                    const summaryText = ensureSentenceEnding(compactStateWatchText(item.what || "State policy development affecting digital assets and stablecoins."));
+                    const updateText = ensureSentenceEnding(
+                      abbreviateLongDates(compactStateWatchText([item.status, item.latest].filter(Boolean).join(" ")))
+                    );
                     const canClampSummary = shouldClampText(summaryText);
                     const isExpanded = Boolean(expandedPolicyCards[cardKey]);
                     return (
@@ -991,15 +1142,16 @@ function App() {
             ) : null}
 
             {pendingFederalBills.length ? (
-              <div className="rounded-2xl border border-zinc-800 bg-zinc-900/90 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.35)]">
-                <p className="text-lg font-semibold tracking-tight text-zinc-100 sm:text-xl">Major Pending Federal Bills</p>
+              <div className="rounded-2xl border border-zinc-800 bg-[#0f131c]/95 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.35)]">
+                <p className="text-lg font-semibold tracking-tight text-zinc-100 sm:text-xl">Major Pending Federal</p>
                 <div className="mt-2 h-px w-full bg-zinc-800" />
                 <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                   {pendingFederalBills.map((bill) => {
                     const cardKey = `federal-${bill.id}`;
-                    const cardTitle = cleanCardTitle(bill.title);
-                    const summaryText = normalizeCardText(bill.what || "Pending federal digital asset/stablecoin legislation");
-                    const updateText = mergeNarrativeParts([bill.status, bill.latest]);
+                    const cardTitle = String(bill.title || "").trim() || "Pending Federal Bill";
+                    const summaryText = ensureSentenceEnding(stripBillCodes(String(bill.what || "Pending federal digital asset/stablecoin legislation").trim()));
+                    const statusText = ensureSentenceEnding(stripBillCodes(String(bill.status || "Pending").trim()));
+                    const latestText = ensureSentenceEnding(compactLatestDisplay(String(bill.latest || "").trim()));
                     const canClampSummary = shouldClampText(summaryText);
                     const isExpanded = Boolean(expandedPolicyCards[cardKey]);
                     return (
@@ -1017,7 +1169,8 @@ function App() {
                             {isExpanded ? "Read less" : "Read more"}
                           </button>
                         ) : null}
-                      {updateText ? <p className="mt-3 text-sm leading-6 text-zinc-300"><span className="font-semibold text-zinc-100">Current: </span>{updateText}</p> : null}
+                      {statusText ? <p className="mt-3 text-sm leading-6 text-zinc-300"><span className="font-semibold text-zinc-100">Status: </span>{statusText}</p> : null}
+                      {latestText ? <p className="mt-2 text-sm leading-6 text-zinc-300"><span className="font-semibold text-zinc-100">Latest: </span>{latestText}</p> : null}
                       <SourceDisclosure sources={bill.sources} className="mt-3" summaryLabel="View sources" />
                       </article>
                     );
@@ -1027,23 +1180,35 @@ function App() {
             ) : null}
 
             {federalContext ? (
-              <div className="rounded-2xl border border-zinc-800 bg-zinc-900/90 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.35)]">
-                <p className="text-lg font-semibold tracking-tight text-zinc-100 sm:text-xl">Federal Context</p>
-                <div className="mt-2 h-px w-full bg-zinc-800" />
-                <h3 className="mt-3 text-lg font-semibold leading-7 text-zinc-100">{federalContext.law}</h3>
-                <p className="mt-3 text-sm leading-7 text-zinc-300">{ensureSentenceEnding(federalContext.summary)}</p>
-                <p className="mt-2 text-sm text-zinc-300">
-                  <span className="font-semibold text-zinc-100">Signed: </span>
-                  {formatDate(federalContext.signedDate)}
-                </p>
-                <SourceDisclosure sources={federalContext.sources} className="mt-3" summaryLabel="View sources" />
+              <div className="rounded-2xl border border-zinc-800 bg-[#0f131c]/95 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.35)]">
+                <details className="group">
+                  <summary className="sources-summary inline-flex cursor-pointer items-center gap-2 text-lg font-semibold tracking-tight text-zinc-100 sm:text-xl">
+                    <span>The GENIUS Act</span>
+                    <span aria-hidden="true" className="details-chevron text-xs text-zinc-500 transition-transform duration-150">▼</span>
+                  </summary>
+                  <div className="mt-3 h-px w-full bg-zinc-800" />
+                  <p className="mt-3 text-sm leading-7 text-zinc-300">
+                    Signed {formatDate(federalContext.signedDate)}, the GENIUS Act is the federal baseline for payment stablecoins in the U.S.
+                  </p>
+                  <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-7 text-zinc-300">
+                    <li>
+                      <span className="font-semibold text-zinc-100">What it means: </span>
+                      It guides issuer eligibility, reserve composition, redemption standards, disclosures, and supervisory expectations for payment stablecoins.
+                    </li>
+                    <li>
+                      <span className="font-semibold text-zinc-100">What&apos;s left to do: </span>
+                      Federal rulemaking and agency implementation are still in progress, including OCC and FDIC workstreams that define operational and compliance details.
+                    </li>
+                  </ul>
+                  <SourceDisclosure sources={federalContext.sources} className="mt-3" summaryLabel="Sources" />
+                </details>
               </div>
             ) : null}
           </div>
         </section>
       ) : null}
 
-      <footer className="bg-black/90">
+      <footer className="bg-[#080b12]/95">
         <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-1 px-4 py-4 text-center text-xs text-zinc-400 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:text-left lg:px-8">
           <p>Last updated: {formatDate(latestDataDate)}</p>
           <a className="underline decoration-sky-500/50 underline-offset-2 hover:text-sky-300" href="https://x.com/eshita" rel="noreferrer" target="_blank">
