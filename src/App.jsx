@@ -536,6 +536,135 @@ function SourceDisclosure({
   );
 }
 
+function getLegislationMeta(statusStr) {
+  const s = (statusStr || "").toLowerCase();
+  if (s.includes("signed") || s.includes("enacted"))
+    return { label: "Signed", dot: "#2dd4bf" };
+  if (s.includes("enrolled") || s.includes("passed legislature"))
+    return { label: "Enrolled", dot: "#fbbf24" };
+  if (s.includes("passed house") || s.includes("passed"))
+    return { label: "Passed", dot: "#fbbf24" };
+  if (s.includes("active committee") || s.includes("committee progression") || s.includes("in committee"))
+    return { label: "In Committee", dot: "#fb923c" };
+  if (s.includes("implementation") || s.includes("watch"))
+    return { label: "Watch", dot: "#fb923c" };
+  if (s.includes("introduced"))
+    return { label: "Introduced", dot: "#71717a" };
+  return { label: "Pending", dot: "#71717a" };
+}
+
+// Grid: dot | name | middle-col | status | chevron
+const LEG_GRID = "grid grid-cols-[16px_1fr_auto] sm:grid-cols-[16px_1fr_148px_120px_16px] items-center gap-x-5";
+
+function LegislationRow({ row, expandedId, toggle, midLabel }) {
+  const isOpen = expandedId === row.id;
+  const meta = getLegislationMeta(row.statusStr);
+
+  return (
+    <div>
+      <button
+        type="button"
+        className={`${LEG_GRID} w-full px-5 py-3 text-left transition-colors hover:bg-zinc-800/25`}
+        onClick={() => toggle(row.id)}
+      >
+        <span className="h-2 w-2 rounded-full" style={{ backgroundColor: meta.dot }} />
+        <span className="min-w-0">
+          <span className="block truncate text-sm font-medium text-zinc-100">{row.title}</span>
+          <span className="mt-0.5 block text-sm text-zinc-500 sm:hidden">
+            {[midLabel, meta.label].filter(Boolean).join(" · ")}
+          </span>
+        </span>
+        <span className="hidden truncate text-sm text-zinc-400 sm:block">{midLabel}</span>
+        <span className="hidden text-sm font-medium sm:block" style={{ color: meta.dot }}>{meta.label}</span>
+        <span
+          className="hidden text-[10px] text-zinc-600 transition-transform duration-150 sm:block"
+          style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+        >▼</span>
+      </button>
+      {isOpen && (
+        <div className="border-t border-zinc-800/60 bg-zinc-900/30 px-5 py-4 pl-10">
+          <p className="text-sm leading-6 text-zinc-300">{ensureSentenceEnding(row.what)}</p>
+          {row.latest ? <p className="mt-2 text-sm leading-6 text-zinc-400">{row.latest}</p> : null}
+          {row.sources?.length ? (
+            <div className="mt-3">
+              <SourceDisclosure sources={row.sources} summaryLabel="Sources" />
+            </div>
+          ) : null}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function LegislationTable({ label, col2Header, rows, expandedId, toggle }) {
+  return (
+    <div>
+      <div className="border-b border-zinc-800/70 bg-zinc-900/40 px-5 py-2">
+        <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">{label}</p>
+      </div>
+      <div className={`${LEG_GRID} border-b border-zinc-800/60 px-5 py-2`}>
+        <span />
+        <span className="text-xs font-medium uppercase tracking-wider text-zinc-600">Name</span>
+        <span className="hidden text-xs font-medium uppercase tracking-wider text-zinc-600 sm:block">{col2Header}</span>
+        <span className="hidden text-xs font-medium uppercase tracking-wider text-zinc-600 sm:block">Status</span>
+        <span />
+      </div>
+      {rows.map((row, i) => (
+        <div key={row.id} className={i < rows.length - 1 ? "border-b border-zinc-800/40" : ""}>
+          <LegislationRow row={row} expandedId={expandedId} toggle={toggle} midLabel={row.midLabel} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function LegislationFeed({ federalContext, pendingFederalBills, majorStateDevelopments, formatDate }) {
+  const [expandedId, setExpandedId] = useState(null);
+  const toggle = (id) => setExpandedId((prev) => (prev === id ? null : id));
+
+  const federalRows = [
+    ...(federalContext ? [{
+      id: "genius",
+      title: "GENIUS Act",
+      midLabel: "Stablecoins",
+      statusStr: `Signed ${formatDate(federalContext.signedDate)}`,
+      what: "Sets the federal framework for payment stablecoins, covering reserve backing, redemptions, supervision, and issuer requirements. Effective January 18, 2027.",
+      latest: ensureSentenceEnding(compactLatestDisplay(federalContext.summary || "")),
+      sources: federalContext.sources,
+    }] : []),
+    ...pendingFederalBills.map((bill) => ({
+      id: bill.id,
+      title: bill.title,
+      midLabel: bill.category || "Federal",
+      statusStr: bill.status,
+      what: ensureSentenceEnding(stripBillCodes(bill.what || "")),
+      latest: ensureSentenceEnding(compactLatestDisplay(bill.latest || "")),
+      sources: bill.sources,
+    })),
+  ];
+
+  const stateRows = majorStateDevelopments.map((item) => ({
+    id: `${item.state}-${item.title}`,
+    title: cleanStateWatchTitle(item.title),
+    midLabel: ALL_STATES[item.state] || item.state,
+    statusStr: item.status,
+    what: ensureSentenceEnding(compactStateWatchText(item.what || "")),
+    latest: ensureSentenceEnding(abbreviateLongDates(compactStateWatchText([item.status, item.latest].filter(Boolean).join(" ")))),
+    sources: item.sources,
+  }));
+
+  return (
+    <section className="mx-auto mb-8 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <h2 className="text-xl font-semibold tracking-tight text-zinc-100">Legislation Status</h2>
+      <div className="mt-3 overflow-hidden rounded-2xl border border-zinc-800 bg-[#0f131c]/95">
+        <LegislationTable label="Federal" col2Header="Category" rows={federalRows} expandedId={expandedId} toggle={toggle} />
+        <div className="h-px bg-zinc-800/60" />
+        <LegislationTable label="State" col2Header="State" rows={stateRows} expandedId={expandedId} toggle={toggle} />
+      </div>
+    </section>
+  );
+}
+
 function App() {
   const statesData = regulationData.states || regulationData;
   const federalContext = regulationData.federalContext || null;
@@ -1068,115 +1197,12 @@ function App() {
       </main>
 
       {majorStateDevelopments.length || pendingFederalBills.length || federalContext ? (
-        <section className="mx-auto mb-6 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-semibold tracking-tight text-zinc-100 sm:text-4xl">Pending Legislation</h2>
-          <div className="mt-2 h-px w-full bg-zinc-800" />
-          <p className="mt-1 text-sm text-zinc-400">Major state and federal items with clear what-it-is and current status.</p>
-
-          <div className="mt-4 space-y-4">
-            {majorStateDevelopments.length ? (
-              <div className="rounded-2xl border border-zinc-800 bg-[#0f131c]/95 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.35)]">
-                <p className="text-lg font-semibold tracking-tight text-zinc-100 sm:text-xl">Major Pending State</p>
-                <div className="mt-2 h-px w-full bg-zinc-800" />
-                <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                  {majorStateDevelopments.map((item) => {
-                    const stateName = ALL_STATES[item.state] || item.state;
-                    const stateStatus = normalizeStatus(statesData[item.state]?.status);
-                    const statusMeta = STATUS_META[stateStatus];
-                    const cardTitle = cleanStateWatchTitle(item.title);
-                    const summaryText = ensureSentenceEnding(compactStateWatchText(item.what || "State policy development affecting digital assets and stablecoins."));
-                    const updateText = ensureSentenceEnding(
-                      abbreviateLongDates(compactStateWatchText([item.status, item.latest].filter(Boolean).join(" ")))
-                    );
-                    return (
-                      <article
-                        className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-5"
-                        key={`${item.state}-${item.title}`}
-                      >
-                        <div className="flex items-start justify-between gap-2">
-                          <p className="text-sm font-medium text-zinc-400">{stateName}</p>
-                          <span
-                            className="rounded-full border px-2 py-0.5 text-xs font-semibold"
-                            style={{
-                              backgroundColor: statusMeta.chipBg,
-                              color: statusMeta.chipText,
-                              borderColor: statusMeta.chipBorder
-                            }}
-                          >
-                            {statusMeta.label}
-                          </span>
-                        </div>
-                        <h3 className="mt-2 text-lg font-semibold leading-7 text-zinc-100">{cardTitle}</h3>
-                        <p className="mt-3 text-sm leading-6 text-zinc-300">{summaryText}</p>
-                        {updateText ? <p className="mt-2 text-sm leading-6 text-zinc-300">{updateText}</p> : null}
-                        <button
-                          type="button"
-                          className="mt-3 text-sm font-medium text-zinc-300 underline decoration-zinc-500/50 underline-offset-2 hover:text-zinc-100"
-                          onClick={() => {
-                            if (ALL_STATES[item.state]) setSelectedAbbr(item.state);
-                          }}
-                        >
-                          Open {stateName} in map panel
-                        </button>
-                        <SourceDisclosure sources={item.sources} className="mt-3" summaryLabel="Sources" />
-                      </article>
-                    );
-                  })}
-                </div>
-              </div>
-            ) : null}
-
-            {pendingFederalBills.length ? (
-              <div className="rounded-2xl border border-zinc-800 bg-[#0f131c]/95 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.35)]">
-                <p className="text-lg font-semibold tracking-tight text-zinc-100 sm:text-xl">Major Pending Federal</p>
-                <div className="mt-2 h-px w-full bg-zinc-800" />
-                <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                  {pendingFederalBills.map((bill) => {
-                    const cardTitle = String(bill.title || "").trim() || "Pending Federal Bill";
-                    const summaryText = ensureSentenceEnding(stripBillCodes(String(bill.what || "Pending federal digital asset/stablecoin legislation").trim()));
-                    const statusText = ensureSentenceEnding(stripBillCodes(String(bill.status || "Pending").trim()));
-                    const latestText = ensureSentenceEnding(compactLatestDisplay(String(bill.latest || "").trim()));
-                    return (
-                      <article className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-5" key={bill.id}>
-                        <h3 className="text-lg font-semibold leading-7 text-zinc-100">{cardTitle}</h3>
-                        <p className="mt-3 text-sm leading-6 text-zinc-300">{summaryText}</p>
-                        {statusText ? <p className="mt-2 text-sm leading-6 text-zinc-300"><span className="font-semibold text-zinc-100">Status: </span>{statusText}</p> : null}
-                        {latestText ? <p className="mt-2 text-sm leading-6 text-zinc-300"><span className="font-semibold text-zinc-100">Latest: </span>{latestText}</p> : null}
-                        <SourceDisclosure sources={bill.sources} className="mt-3" summaryLabel="Sources" />
-                      </article>
-                    );
-                  })}
-                </div>
-              </div>
-            ) : null}
-
-            {federalContext ? (
-              <div className="rounded-2xl border border-zinc-800 bg-[#0f131c]/95 p-5 shadow-[0_8px_40px_rgba(0,0,0,0.35)]">
-                <details className="group">
-                  <summary className="sources-summary inline-flex cursor-pointer items-center gap-2 text-lg font-semibold tracking-tight text-zinc-100 sm:text-xl">
-                    <span>The GENIUS Act</span>
-                    <span aria-hidden="true" className="details-chevron text-xs text-zinc-500 transition-transform duration-150">▼</span>
-                  </summary>
-                  <div className="mt-3 h-px w-full bg-zinc-800" />
-                  <p className="mt-3 text-sm leading-7 text-zinc-300">
-                    Signed {formatDate(federalContext.signedDate)}, the GENIUS Act is the federal baseline for payment stablecoins in the U.S.
-                  </p>
-                  <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-7 text-zinc-300">
-                    <li>
-                      <span className="font-semibold text-zinc-100">What it means: </span>
-                      It guides issuer eligibility, reserve composition, redemption standards, disclosures, and supervisory expectations for payment stablecoins.
-                    </li>
-                    <li>
-                      <span className="font-semibold text-zinc-100">What&apos;s left to do: </span>
-                      Federal rulemaking and agency implementation are still in progress, including OCC and FDIC workstreams that define operational and compliance details.
-                    </li>
-                  </ul>
-                  <SourceDisclosure sources={federalContext.sources} className="mt-3" summaryLabel="Sources" />
-                </details>
-              </div>
-            ) : null}
-          </div>
-        </section>
+        <LegislationFeed
+          federalContext={federalContext}
+          pendingFederalBills={pendingFederalBills}
+          majorStateDevelopments={majorStateDevelopments}
+          formatDate={formatDate}
+        />
       ) : null}
 
       <footer className="bg-[#080b12]/95">
