@@ -17,9 +17,9 @@
       "id": "HR3633",
       "title": "Digital Asset Market Clarity Act of 2025 (CLARITY Act)",
       "category": "Market Structure",
-      "what": "Would create a broader federal market-structure framework for digital asset spot markets and regulatory jurisdiction.",
+      "what": "Establishes a federal framework for digital asset spot markets, clarifying whether the SEC or CFTC has jurisdiction over different types of digital assets. Would give commodity-like treatment to many tokens and set clearer operating rules for exchanges and trading platforms.",
       "status": "Passed House; referred to Senate Banking",
-      "latest": "Latest congressional action remains September 18, 2025: received in Senate and referred to Senate Banking. Senate Banking's January 15, 2026 executive session listing to consider H.R.3633 was marked POSTPONED; no later committee action is listed as of March 26, 2026.",
+      "latest": "Latest Congress.gov action is September 18, 2025: received in Senate and referred to Senate Banking. A Senate Banking executive session to consider H.R.3633 was posted for January 15, 2026 and marked postponed, and no later committee action is posted as of March 26, 2026.",
       "sources": [
         "https://www.congress.gov/bill/119th-congress/house-bill/3633/actions",
         "https://www.banking.senate.gov/hearings/01/09/2026/executive-session"
@@ -27,12 +27,25 @@
       "lastUpdated": "2026-03-26"
     },
     {
+      "id": "HR2392",
+      "title": "STABLE Act of 2025",
+      "category": "Stablecoin Framework",
+      "what": "House stablecoin framework bill that set out permitted issuer categories, one-to-one reserves, redemption standards, and federal-state supervisory structure for payment stablecoins.",
+      "status": "Introduced; reported by House Financial Services; no floor passage",
+      "latest": "Latest Congress.gov action is May 6, 2025: placed on the Union Calendar (Calendar No. 68) after committee reporting. No later House or Senate action is listed as of March 26, 2026.",
+      "sources": [
+        "https://www.congress.gov/bill/119th-congress/house-bill/2392/all-info",
+        "https://www.congress.gov/bill/119th-congress/house-bill/2392"
+      ],
+      "lastUpdated": "2026-03-26"
+    },
+    {
       "id": "HR1919",
       "title": "Anti-CBDC Surveillance State Act",
       "category": "CBDC Policy",
-      "what": "Would limit the Federal Reserve from issuing a U.S. CBDC directly to individuals and from using a CBDC for monetary policy implementation.",
+      "what": "Prohibits the Federal Reserve from issuing a digital dollar directly to individuals and bars the Fed from using a central bank digital currency to conduct monetary policy. Aimed at preventing government surveillance of personal financial transactions.",
       "status": "Passed House; awaiting Senate action",
-      "latest": "Latest action remains July 17, 2025: House passed bill, with motion to reconsider laid on the table. No subsequent Senate action is listed in Congress.gov Actions Overview as of March 26, 2026.",
+      "latest": "Latest Congress.gov action is July 17, 2025: House passage, with motion to reconsider laid on the table. No Senate action is listed as of March 26, 2026.",
       "sources": [
         "https://www.congress.gov/bill/119th-congress/house-bill/1919/actions"
       ],
@@ -42,9 +55,9 @@
       "id": "S2207",
       "title": "Digital Asset Tax Reform Bill (Senate)",
       "category": "Taxation",
-      "what": "Would establish digital-asset-related federal tax treatment updates, including de minimis treatment discussions and related reporting/tax mechanics.",
+      "what": "Would update federal tax rules for digital assets, including a de minimis exemption so that small everyday crypto transactions do not trigger capital gains reporting. Also addresses reporting requirements for crypto brokers and exchanges.",
       "status": "Introduced; pending in Senate Finance",
-      "latest": "Latest action remains June 30, 2025: introduced in Senate and referred to the Committee on Finance. No newer committee or floor action is listed as of March 26, 2026.",
+      "latest": "Introduced in the Senate and referred to the Finance Committee on June 30, 2025. No committee hearing or vote has been scheduled as of March 26, 2026.",
       "sources": [
         "https://www.congress.gov/bill/119th-congress/senate-bill/2207/actions",
         "https://www.congress.gov/bill/119th-congress/senate-bill/2207/text"
@@ -54,11 +67,24 @@
   ],
   "majorStateDevelopments": [
     {
+      "state": "FL",
+      "title": "Florida payment stablecoin framework and pilot package",
+      "what": "Florida's 2026 package pairs a payment-stablecoin licensing framework with a Department of Financial Services pilot for state use of stablecoins, creating one of the most advanced state tracks for issuer oversight plus operational testing.",
+      "status": "Legislature-approved package; awaiting final enactment steps",
+      "latest": "HB 175 (Payment Stablecoin) last action on March 5, 2026: ordered enrolled. SB 1568 (Florida Stablecoin Pilot Program) last action on March 17, 2026: ordered enrolled. As of March 26, 2026, both bills are in final enrollment stage.",
+      "sources": [
+        "https://www.flsenate.gov/Session/Bill/2026/175",
+        "https://www.flsenate.gov/Session/Bill/2026/1568",
+        "https://www.flsenate.gov/Session/Bill/2026/314"
+      ],
+      "lastUpdated": "2026-03-26"
+    },
+    {
       "state": "CA",
-      "title": "DFAL licensing rollout",
-      "what": "California's Digital Financial Assets Law (DFAL) framework and licensing implementation for covered digital-asset activity.",
+      "title": "Digital Financial Assets Law — licensing deadline",
+      "what": "California law requires exchanges, brokers, and other businesses dealing in digital assets to obtain a license from the state financial regulator. The licensing deadline is July 1, 2026. Businesses operating without a license after that date face enforcement action under the Digital Financial Assets Law.",
       "status": "Implementation watch: licensing date remains July 1, 2026.",
-      "latest": "DFPI indicates covered persons must obtain a license by July 1, 2026; no later statutory date change is reflected on current DFPI framework pages as of March 26, 2026.",
+      "latest": "DFPI continues to show July 1, 2026 as the date by which covered firms must be licensed or have submitted a completed application. DFPI rulemaking records also continue to list the 2025 proposed and modified regulation process as of March 26, 2026.",
       "sources": [
         "https://dfpi.ca.gov/regulated-industries/digital-financial-assets/",
         "https://dfpi.ca.gov/rules-enforcement/laws-and-regulations/digital-financial-assets-law-regulations-opinions-releases/"
@@ -66,24 +92,24 @@
       "lastUpdated": "2026-03-26"
     },
     {
-      "state": "FL",
-      "title": "HB 175 / SB 314 + SB 1568 - Florida stablecoin framework and pilot bills",
-      "what": "HB 175 (Payment Stablecoin) advanced as the main Florida licensing framework vehicle, with SB 314 laid on the table in favor of HB 175; separate SB 1568 advanced the DFS digital-currency pilot track.",
-      "status": "Passed Legislature stage (ordered enrolled); awaiting final enactment steps.",
-      "latest": "HB 175 latest action (March 5, 2026): House ordered enrolled after Senate substituted HB 175 for SB 314 and passed it 37-0. SB 314 latest action (March 5, 2026): laid on table, refer to CS/CS/HB 175. SB 1568 latest action (March 17, 2026): Senate ordered enrolled after House passage.",
+      "state": "NY",
+      "title": "CRYPTO Act — criminal penalties for unlicensed activity",
+      "what": "New York is considering criminal penalties on top of existing civil enforcement for unlicensed virtual currency business activity, which would materially raise compliance exposure for firms operating without required NYDFS authorization.",
+      "status": "Pending in Senate Banks and Assembly Banks",
+      "latest": "S8901 was referred to Senate Banks on January 14, 2026, and companion A10246 was referred to Assembly Banks on February 12, 2026. No committee vote postings are listed as of March 26, 2026.",
       "sources": [
-        "https://www.flsenate.gov/Session/Bill/2026/175",
-        "https://www.flsenate.gov/Session/Bill/2026/314",
-        "https://www.flsenate.gov/Session/Bill/2026/1568"
+        "https://www.nysenate.gov/legislation/bills/2025/S8901",
+        "https://www.nysenate.gov/legislation/bills/2025/A10246",
+        "https://www.nysenate.gov/newsroom/in-the-news/2026/zellnor-myrie/unlicensed-crypto-businesses-could-face-criminal-charges"
       ],
       "lastUpdated": "2026-03-26"
     },
     {
       "state": "MD",
-      "title": "HB 1355 / SB 662 - Maryland Stablecoin Act",
-      "what": "Maryland introduced companion bills establishing a state payment-stablecoin services framework, including licensing and supervisory structure updates.",
-      "status": "Active committee progression (House companion advanced).",
-      "latest": "HB 1355 latest action (March 16, 2026): favorable report by House Economic Matters and moved to Senate first reading (Finance). Senate companion SB 662 remains in Senate Finance after hearing notice and does not yet show a committee vote posting.",
+      "title": "Maryland Stablecoin Act",
+      "what": "Maryland would establish a payment-stablecoin services regime with licensing and supervisory requirements under state financial-institutions law.",
+      "status": "House-passed; pending Senate Finance",
+      "latest": "HB1355 passed House third reading 130-1 on March 18, 2026 and was referred to Senate Finance on March 19, 2026. Senate companion SB0662 remains listed with a February 26 hearing action and no posted floor movement as of March 26, 2026.",
       "sources": [
         "https://mgaleg.maryland.gov/mgawebsite/Legislation/Details/HB1355?ys=2026RS",
         "https://mgaleg.maryland.gov/mgawebsite/Legislation/Details/SB0662?ys=2026RS"
@@ -91,15 +117,14 @@
       "lastUpdated": "2026-03-26"
     },
     {
-      "state": "NY",
-      "title": "S8901 - CRYPTO Act (unlicensed activity penalties)",
-      "what": "Would add criminal penalties for unlicensed virtual currency business activity in New York (Financial Services Law § 408-b).",
-      "status": "Pending legislation (2025-2026 session).",
-      "latest": "Senate bill S8901 remains in Senate Banks (referred January 14, 2026). Assembly companion A10246 was introduced on February 12, 2026 and referred to Assembly Banks; no committee votes are listed yet.",
+      "state": "TX",
+      "title": "Texas oil-backed stablecoin proposal",
+      "what": "Texas SB2922 would create a state licensing framework for an oil-backed stablecoin, including reserve, redemption, disclosure, and Texas Department of Banking oversight requirements.",
+      "status": "In committee (Senate Business and Commerce)",
+      "latest": "Texas Legislature Online lists the latest action on April 7, 2025: referred to Senate Business and Commerce after first reading. No committee vote or floor action is posted as of March 26, 2026.",
       "sources": [
-        "https://www.nysenate.gov/legislation/bills/2025/S8901",
-        "https://www.nysenate.gov/legislation/bills/2025/A10246",
-        "https://www.nysenate.gov/newsroom/in-the-news/2026/zellnor-myrie/unlicensed-crypto-businesses-could-face-criminal-charges"
+        "https://capitol.texas.gov/BillLookup/History.aspx?Bill=SB2922&LegSess=89R",
+        "https://capitol.texas.gov/tlodocs/89R/billtext/html/SB02922I.htm"
       ],
       "lastUpdated": "2026-03-26"
     }

@@ -413,7 +413,7 @@ function cleanStateWatchTitle(value) {
     .replace(/\(\s*(?:H\.?R\.?|S\.?|HB|SB|AB|A|HR)\s*\.?-?\s*\d+[A-Z0-9-]*\s*\)/gi, "")
     .replace(/\s*\/\s*/g, " ")
     .replace(/\s*\+\s*/g, " ")
-    .replace(/\s*-\s*/g, " - ")
+    .replace(/\s+-\s+/g, " - ")
     .replace(/^[^A-Za-z]+/g, "")
     .replace(/^[\-:–—\s]+/g, "")
     .replace(/\s{2,}/g, " ")
@@ -655,7 +655,7 @@ function LegislationFeed({ federalContext, pendingFederalBills, majorStateDevelo
 
   return (
     <section className="mx-auto mb-8 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-      <h2 className="text-xl font-semibold tracking-tight text-zinc-100">Legislation Status</h2>
+      <h2 className="text-xl font-semibold tracking-tight text-zinc-100">Top Legislation and Status</h2>
       <div className="mt-3 overflow-hidden rounded-2xl border border-zinc-800 bg-[#0f131c]/95">
         <LegislationTable label="Federal" col2Header="Category" rows={federalRows} expandedId={expandedId} toggle={toggle} />
         <div className="h-px bg-zinc-800/60" />
