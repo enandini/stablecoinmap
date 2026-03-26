@@ -116,10 +116,146 @@ function shiftHexColor(hex, amount) {
 function getSourceLabel(source) {
   try {
     const parsed = new URL(source);
-    return `${parsed.hostname}${parsed.pathname}`;
+    const hostname = parsed.hostname.replace(/^www\./, "");
+    const overrides = [
+      { pattern: /congress\.gov$/i, label: "United States Congress (Congress.gov)" },
+      { pattern: /whitehouse\.gov$/i, label: "White House (United States)" },
+      { pattern: /occ\.gov$/i, label: "Office of the Comptroller of the Currency (OCC)" },
+      { pattern: /fdic\.gov$/i, label: "Federal Deposit Insurance Corporation (FDIC)" },
+      { pattern: /treasury\.gov$/i, label: "U.S. Department of the Treasury" },
+      { pattern: /federalreserve\.gov$/i, label: "Federal Reserve" },
+      { pattern: /nysenate\.gov$/i, label: "New York State Senate" },
+      { pattern: /dfs\.ny\.gov$/i, label: "New York Department of Financial Services (NYDFS)" },
+      { pattern: /dfpi\.ca\.gov$/i, label: "California Department of Financial Protection and Innovation (DFPI)" },
+      { pattern: /stabletoken\.wyo\.gov$/i, label: "Wyoming Stable Token Commission" }
+    ];
+
+    const matched = overrides.find((item) => item.pattern.test(hostname));
+    if (matched) return matched.label;
+
+    if (hostname.endsWith(".gov")) {
+      if (hostname.includes(".state.")) return `U.S. State Government (${hostname})`;
+      return `Government Source (${hostname})`;
+    }
+
+    const domainLabel = hostname
+      .split(".")
+      .slice(0, -1)
+      .join(" ")
+      .replace(/[-_]/g, " ")
+      .replace(/\b\w/g, (char) => char.toUpperCase())
+      .trim();
+    return domainLabel || hostname;
   } catch {
     return source;
   }
+}
+
+function formatPathText(value) {
+  const cleaned = decodeURIComponent(String(value || ""))
+    .replace(/\.[a-z0-9]+$/i, "")
+    .replace(/[-_]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!cleaned) return "";
+  return cleaned.replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function getSourceContextLabel(source) {
+  try {
+    const parsed = new URL(source);
+    const hostname = parsed.hostname.replace(/^www\./, "");
+    const pathname = parsed.pathname.replace(/\/+$/, "");
+    const segments = pathname.split("/").filter(Boolean);
+
+    if (/congress\.gov$/i.test(hostname)) {
+      const billMatch = pathname.match(/\/bill\/\d+th-congress\/(senate-bill|house-bill)\/(\d+)(?:\/([^/]+))?/i);
+      if (billMatch) {
+        const prefix = billMatch[1].toLowerCase() === "senate-bill" ? "S." : "H.R.";
+        const section = billMatch[3]?.toLowerCase();
+        const sectionLabelMap = {
+          text: "bill text",
+          actions: "bill actions",
+          "all-info": "bill overview"
+        };
+        const sectionLabel = section ? (sectionLabelMap[section] || formatPathText(section)) : "bill page";
+        return `${prefix}${billMatch[2]} ${sectionLabel}`;
+      }
+    }
+
+    if (/nysenate\.gov$/i.test(hostname)) {
+      const billMatch = pathname.match(/\/legislation\/bills\/\d{4}\/([A-Z]\d+[A-Z0-9]*)/i);
+      if (billMatch) return `${billMatch[1].toUpperCase()} bill page`;
+      if (pathname.includes("/newsroom/")) return "newsroom update";
+    }
+
+    if (/dfs\.ny\.gov$/i.test(hostname)) {
+      if (pathname.includes("industry_letters")) return "industry guidance";
+      if (pathname.includes("virtual_currency_businesses")) return "virtual currency businesses page";
+      if (pathname.includes("application_fee_schedule")) return "fee schedule";
+    }
+
+    if (/dfpi\.ca\.gov$/i.test(hostname)) {
+      if (pathname.includes("digital-financial-assets-law-regulations-opinions-releases")) return "DFAL regulations and releases";
+      if (pathname.includes("digital-financial-assets")) return "digital financial assets framework";
+    }
+
+    if (/flsenate\.gov$/i.test(hostname)) {
+      const billSummaryMatch = pathname.match(/\/billsummaries\/\d+\/html\/(\d+)/i);
+      if (billSummaryMatch) return `bill summary ${billSummaryMatch[1]}`;
+      if (pathname.includes("/laws/statutes/")) return "statutes reference";
+    }
+
+    if (segments.length) {
+      const last = segments[segments.length - 1];
+      const prev = segments.length > 1 ? segments[segments.length - 2] : "";
+      if (/^\d+$/.test(last) && prev) return formatPathText(`${prev} ${last}`);
+      return formatPathText(last);
+    }
+  } catch {
+    return "";
+  }
+
+  return "";
+}
+
+function getSourceConflictHint(source) {
+  try {
+    const parsed = new URL(source);
+    const segments = parsed.pathname.split("/").filter(Boolean);
+    if (!segments.length) return parsed.hostname.replace(/^www\./, "");
+    const hint = formatPathText(segments.slice(-2).join(" "));
+    return hint || parsed.hostname.replace(/^www\./, "");
+  } catch {
+    return "link";
+  }
+}
+
+function getSourceDisplayItems(sources) {
+  const grouped = new Map();
+  const uniqueSources = [...new Set((sources || []).map((item) => String(item || "").trim()).filter(Boolean))];
+
+  uniqueSources.forEach((source) => {
+    const providerLabel = getSourceLabel(source);
+    const contextLabel = getSourceContextLabel(source);
+    let label = contextLabel ? `${providerLabel}: ${contextLabel}` : providerLabel;
+
+    if (grouped.has(label) && grouped.get(label).url !== source) {
+      const hint = getSourceConflictHint(source);
+      label = `${label} (${hint})`;
+    }
+
+    if (grouped.has(label) && grouped.get(label).url === source) {
+      return;
+    }
+
+    grouped.set(label, {
+      label,
+      url: source
+    });
+  });
+
+  return Array.from(grouped.values());
 }
 
 function shouldClampText(value, threshold = 180) {
@@ -244,28 +380,44 @@ function trackerStatusStyle(status) {
   };
 }
 
-function SourceDisclosure({ sources, stopPropagation = false, className = "" }) {
+function SourceDisclosure({
+  sources,
+  stopPropagation = false,
+  className = "",
+  collapsible = true,
+  summaryLabel = "View sources"
+}) {
   if (!sources?.length) return null;
+  const sourceItems = getSourceDisplayItems(sources);
+  if (!sourceItems.length) return null;
+  const listContent = (
+    <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm text-sky-300">
+      {sourceItems.map((source) => (
+        <li className="min-w-0" key={`${source.label}-${source.url}`}>
+          <a className="break-words underline decoration-sky-500/50 underline-offset-2 hover:text-sky-200" href={source.url} rel="noreferrer" target="_blank">
+            {source.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+
+  if (!collapsible) {
+    return <div className={className}>{listContent}</div>;
+  }
+
   return (
     <details
       className={`mt-2 ${className}`}
       onClick={stopPropagation ? (event) => event.stopPropagation() : undefined}
     >
       <summary className="sources-summary inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-zinc-700 bg-zinc-950/40 px-2.5 py-1 text-sm font-medium text-zinc-300 hover:border-zinc-600 hover:text-zinc-200">
-        <span>Source</span>
+        <span>{summaryLabel}</span>
         <span aria-hidden="true" className="details-chevron text-[10px] text-zinc-500 transition-transform duration-150">
           ▼
         </span>
       </summary>
-      <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm text-sky-300">
-        {sources.map((source) => (
-          <li className="min-w-0" key={source}>
-            <a className="break-all underline decoration-sky-500/50 underline-offset-2 hover:text-sky-200" href={source} rel="noreferrer" target="_blank">
-              {getSourceLabel(source)}
-            </a>
-          </li>
-        ))}
-      </ul>
+      {listContent}
     </details>
   );
 }
@@ -750,7 +902,11 @@ function App() {
               activeSection={activePanelSection}
               setActiveSection={setActivePanelSection}
             >
-              {selectedState.sources?.length ? <SourceDisclosure sources={selectedState.sources} /> : <p className="detail-panel-copy">No source links listed.</p>}
+              {selectedState.sources?.length ? (
+                <SourceDisclosure sources={selectedState.sources} collapsible={false} />
+              ) : (
+                <p className="detail-panel-copy">No source links listed.</p>
+              )}
             </PanelAccordionSection>
           </div>
         </aside>
@@ -826,7 +982,7 @@ function App() {
                           </button>
                         ) : null}
                         {updateText ? <p className="mt-3 text-sm leading-6 text-zinc-300">{updateText}</p> : null}
-                        <SourceDisclosure sources={item.sources} stopPropagation className="mt-3" />
+                        <SourceDisclosure sources={item.sources} stopPropagation className="mt-3" summaryLabel="View sources" />
                       </article>
                     );
                   })}
@@ -862,7 +1018,7 @@ function App() {
                           </button>
                         ) : null}
                       {updateText ? <p className="mt-3 text-sm leading-6 text-zinc-300"><span className="font-semibold text-zinc-100">Current: </span>{updateText}</p> : null}
-                      <SourceDisclosure sources={bill.sources} className="mt-3" />
+                      <SourceDisclosure sources={bill.sources} className="mt-3" summaryLabel="View sources" />
                       </article>
                     );
                   })}
@@ -880,7 +1036,7 @@ function App() {
                   <span className="font-semibold text-zinc-100">Signed: </span>
                   {formatDate(federalContext.signedDate)}
                 </p>
-                <SourceDisclosure sources={federalContext.sources} className="mt-3" />
+                <SourceDisclosure sources={federalContext.sources} className="mt-3" summaryLabel="View sources" />
               </div>
             ) : null}
           </div>
