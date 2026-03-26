@@ -62,3 +62,46 @@ a:hover {
   scrollbar-width: thin;
   scrollbar-color: #52525b #0a0a0f;
 }
+
+.detail-panel-section {
+  border-top: 1px solid rgba(63, 63, 70, 0.7);
+  padding-top: 0.95rem;
+}
+
+.detail-panel-section:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.detail-panel-heading {
+  color: #f4f4f5;
+  font-size: 0.96rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.1rem;
+}
+
+.detail-panel-copy {
+  color: #d4d4d8;
+  font-size: 0.95rem;
+  line-height: 1.72;
+}
+
+.text-clamp-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.sources-summary {
+  list-style: none;
+}
+
+.sources-summary::-webkit-details-marker {
+  display: none;
+}
+
+details[open] .details-chevron {
+  transform: rotate(180deg);
+}
