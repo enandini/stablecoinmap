@@ -5,7 +5,7 @@
 body {
   margin: 0;
   font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background-color: #000000;
+  background-color: #080b12;
   color: #f8fafc;
 }
 
@@ -34,7 +34,7 @@ a:hover {
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #3f3f46 #0a0a0f;
+  scrollbar-color: #3f3f46 #0b1018;
 }
 
 /* WebKit scrollbar styling */
@@ -44,13 +44,13 @@ a:hover {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0f;
+  background: #0b1018;
 }
 
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #3f3f46, #27272a);
   border-radius: 9999px;
-  border: 2px solid #0a0a0f;
+  border: 2px solid #0b1018;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -60,7 +60,7 @@ a:hover {
 /* Scoped class used for panel scroll areas */
 .custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #52525b #0a0a0f;
+  scrollbar-color: #52525b #0b1018;
 }
 
 .detail-panel-section {
@@ -74,11 +74,12 @@ a:hover {
 }
 
 .detail-panel-heading {
-  color: #f4f4f5;
-  font-size: 0.96rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  line-height: 1.1rem;
+  color: #71717a;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 
 .detail-panel-copy {

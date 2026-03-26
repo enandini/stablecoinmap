@@ -568,7 +568,6 @@ function App() {
   const [activeStatusFilter, setActiveStatusFilter] = useState(null);
   const [stateSearchQuery, setStateSearchQuery] = useState("");
   const [isStateSearchOpen, setIsStateSearchOpen] = useState(false);
-  const [expandedPolicyCards, setExpandedPolicyCards] = useState({});
   const [activePanelSection, setActivePanelSection] = useState("summary");
 
   const selectedState = useMemo(() => {
@@ -623,13 +622,6 @@ function App() {
       entry.searchTerms.some((term) => term.includes(query))
     ).slice(0, 8);
   }, [stateSearchCatalog, stateSearchQuery]);
-
-  const toggleCardExpand = (key) => {
-    setExpandedPolicyCards((prev) => ({
-      ...prev,
-      [key]: !prev[key]
-    }));
-  };
 
   useEffect(() => {
     setActivePanelSection("summary");
@@ -718,20 +710,20 @@ function App() {
   }, [selectedAbbr, selectedState.name, selectedState.summary]);
 
   return (
-    <div className="min-h-screen bg-[#080b12] pt-5 text-zinc-100 sm:pt-6">
+    <div className="min-h-screen bg-[#080b12] pt-1 text-zinc-100 sm:pt-2">
       <header className="bg-[#080b12]/95 backdrop-blur">
-        <div className="mx-auto w-full max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">United States Stablecoin Regulation</h1>
-          <p className="mt-3 text-sm text-zinc-400 sm:text-base">
+        <div className="mx-auto w-full max-w-7xl px-4 py-2 sm:px-6 lg:px-8">
+          <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl lg:text-4xl">United States Stablecoin Regulation</h1>
+          <p className="mt-1 text-sm text-zinc-400 sm:text-base">
             State-by-state tracker of stablecoin frameworks, bills, and regulatory activity.
           </p>
         </div>
       </header>
 
-      <main className="mx-auto grid w-full max-w-7xl items-start gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[minmax(0,1fr),360px] lg:px-8">
+      <main className="mx-auto grid w-full max-w-7xl items-start gap-5 px-4 py-3 sm:px-6 lg:grid-cols-[minmax(0,1fr),360px] lg:px-8">
         <div className="min-w-0 space-y-6" ref={leftColumnRef}>
           <section className="h-fit px-0">
-          <div className="mb-7 flex flex-wrap items-center gap-x-5 gap-y-3 border-b border-zinc-800/80 pb-4 sm:flex-nowrap sm:overflow-x-auto" ref={legendRef}>
+          <div className="mb-5 flex flex-wrap items-center gap-x-5 gap-y-3 border-b border-zinc-800/80 pb-3 sm:flex-nowrap sm:overflow-x-auto" ref={legendRef}>
             {STATUS_ORDER.map((key, index) => {
               const value = STATUS_META[key];
               const isFilterActive = activeStatusFilter === key;
@@ -771,8 +763,8 @@ function App() {
               );
             })}
           </div>
-          <div className="relative overflow-hidden rounded-xl bg-[#05070d]">
-            <ComposableMap projection="geoAlbersUsa" className="block h-auto w-full">
+          <div className="relative">
+            <ComposableMap projection="geoAlbersUsa" className="block h-auto w-full bg-transparent">
               <Geographies geography={geoUrl}>
                 {({ geographies }) =>
                   geographies.map((geo) => {
@@ -860,7 +852,26 @@ function App() {
             borderColor: hexToRgba(selectedStatusMeta.chipBorder, 0.5)
           }}
         >
-          <div className="relative mb-4" ref={stateSearchRef}>
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-zinc-400">
+                Status
+              </p>
+              <h2 className="mt-1 text-3xl font-bold tracking-tight text-zinc-100">{selectedState.name}</h2>
+            </div>
+            <span
+              className="shrink-0 rounded-full border px-2.5 py-1 text-xs font-semibold"
+              style={{
+                backgroundColor: selectedStatusMeta.chipBg,
+                color: selectedStatusMeta.chipText,
+                borderColor: selectedStatusMeta.chipBorder
+              }}
+            >
+              {selectedStatusMeta.label}
+            </span>
+          </div>
+          <div className="mt-3 h-px w-full bg-zinc-800" />
+          <div className="relative mt-4 mb-5" ref={stateSearchRef}>
             <svg
               aria-hidden="true"
               className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500"
@@ -922,13 +933,7 @@ function App() {
             ) : null}
           </div>
 
-          <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-zinc-400">
-            Status: {selectedStatusMeta.label}
-          </p>
-          <h2 className="mt-1 text-3xl font-bold tracking-tight text-zinc-100">{selectedState.name}</h2>
-          <div className="mt-4 h-px w-full bg-zinc-800" />
-
-          <div className="mt-5 space-y-4 text-sm text-zinc-300 panel-fade" key={selectedAbbr}>
+          <div className="space-y-4 text-sm text-zinc-300 panel-fade" key={selectedAbbr}>
             <PanelAccordionSection
               id="summary"
               title="Summary"
@@ -1078,29 +1083,15 @@ function App() {
                     const stateName = ALL_STATES[item.state] || item.state;
                     const stateStatus = normalizeStatus(statesData[item.state]?.status);
                     const statusMeta = STATUS_META[stateStatus];
-                    const cardKey = `state-${item.state}-${item.title}`;
                     const cardTitle = cleanStateWatchTitle(item.title);
                     const summaryText = ensureSentenceEnding(compactStateWatchText(item.what || "State policy development affecting digital assets and stablecoins."));
                     const updateText = ensureSentenceEnding(
                       abbreviateLongDates(compactStateWatchText([item.status, item.latest].filter(Boolean).join(" ")))
                     );
-                    const canClampSummary = shouldClampText(summaryText);
-                    const isExpanded = Boolean(expandedPolicyCards[cardKey]);
                     return (
                       <article
-                        className="cursor-pointer rounded-xl border border-zinc-800 bg-zinc-950/60 p-5 transition-colors duration-150 hover:border-zinc-700 hover:bg-zinc-900/70"
+                        className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-5"
                         key={`${item.state}-${item.title}`}
-                        onClick={() => {
-                          if (ALL_STATES[item.state]) setSelectedAbbr(item.state);
-                        }}
-                        role="button"
-                        tabIndex={0}
-                        onKeyDown={(event) => {
-                          if (event.key === "Enter" || event.key === " ") {
-                            event.preventDefault();
-                            if (ALL_STATES[item.state]) setSelectedAbbr(item.state);
-                          }
-                        }}
                       >
                         <div className="flex items-start justify-between gap-2">
                           <p className="text-sm font-medium text-zinc-400">{stateName}</p>
@@ -1116,24 +1107,18 @@ function App() {
                           </span>
                         </div>
                         <h3 className="mt-2 text-lg font-semibold leading-7 text-zinc-100">{cardTitle}</h3>
-                        <p className="mt-3 text-sm text-zinc-300">
-                          <span className={canClampSummary && !isExpanded ? "text-clamp-3" : ""}>{summaryText}</span>
-                        </p>
-                        {canClampSummary ? (
-                          <button
-                            type="button"
-                            className="mt-1 text-sm font-medium text-sky-300 underline decoration-sky-500/50 underline-offset-2 hover:text-sky-200"
-                            onClick={(event) => {
-                              event.preventDefault();
-                              event.stopPropagation();
-                              toggleCardExpand(cardKey);
-                            }}
-                          >
-                            {isExpanded ? "Read less" : "Read more"}
-                          </button>
-                        ) : null}
-                        {updateText ? <p className="mt-3 text-sm leading-6 text-zinc-300">{updateText}</p> : null}
-                        <SourceDisclosure sources={item.sources} stopPropagation className="mt-3" summaryLabel="View sources" />
+                        <p className="mt-3 text-sm leading-6 text-zinc-300">{summaryText}</p>
+                        {updateText ? <p className="mt-2 text-sm leading-6 text-zinc-300">{updateText}</p> : null}
+                        <button
+                          type="button"
+                          className="mt-3 text-sm font-medium text-zinc-300 underline decoration-zinc-500/50 underline-offset-2 hover:text-zinc-100"
+                          onClick={() => {
+                            if (ALL_STATES[item.state]) setSelectedAbbr(item.state);
+                          }}
+                        >
+                          Open {stateName} in map panel
+                        </button>
+                        <SourceDisclosure sources={item.sources} className="mt-3" summaryLabel="Sources" />
                       </article>
                     );
                   })}
@@ -1147,31 +1132,17 @@ function App() {
                 <div className="mt-2 h-px w-full bg-zinc-800" />
                 <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                   {pendingFederalBills.map((bill) => {
-                    const cardKey = `federal-${bill.id}`;
                     const cardTitle = String(bill.title || "").trim() || "Pending Federal Bill";
                     const summaryText = ensureSentenceEnding(stripBillCodes(String(bill.what || "Pending federal digital asset/stablecoin legislation").trim()));
                     const statusText = ensureSentenceEnding(stripBillCodes(String(bill.status || "Pending").trim()));
                     const latestText = ensureSentenceEnding(compactLatestDisplay(String(bill.latest || "").trim()));
-                    const canClampSummary = shouldClampText(summaryText);
-                    const isExpanded = Boolean(expandedPolicyCards[cardKey]);
                     return (
                       <article className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-5" key={bill.id}>
                         <h3 className="text-lg font-semibold leading-7 text-zinc-100">{cardTitle}</h3>
-                        <p className="mt-3 text-sm text-zinc-300">
-                        <span className={canClampSummary && !isExpanded ? "text-clamp-3" : ""}>{summaryText}</span>
-                      </p>
-                        {canClampSummary ? (
-                          <button
-                            type="button"
-                            className="mt-1 text-sm font-medium text-sky-300 underline decoration-sky-500/50 underline-offset-2 hover:text-sky-200"
-                            onClick={() => toggleCardExpand(cardKey)}
-                          >
-                            {isExpanded ? "Read less" : "Read more"}
-                          </button>
-                        ) : null}
-                      {statusText ? <p className="mt-3 text-sm leading-6 text-zinc-300"><span className="font-semibold text-zinc-100">Status: </span>{statusText}</p> : null}
-                      {latestText ? <p className="mt-2 text-sm leading-6 text-zinc-300"><span className="font-semibold text-zinc-100">Latest: </span>{latestText}</p> : null}
-                      <SourceDisclosure sources={bill.sources} className="mt-3" summaryLabel="View sources" />
+                        <p className="mt-3 text-sm leading-6 text-zinc-300">{summaryText}</p>
+                        {statusText ? <p className="mt-2 text-sm leading-6 text-zinc-300"><span className="font-semibold text-zinc-100">Status: </span>{statusText}</p> : null}
+                        {latestText ? <p className="mt-2 text-sm leading-6 text-zinc-300"><span className="font-semibold text-zinc-100">Latest: </span>{latestText}</p> : null}
+                        <SourceDisclosure sources={bill.sources} className="mt-3" summaryLabel="Sources" />
                       </article>
                     );
                   })}
